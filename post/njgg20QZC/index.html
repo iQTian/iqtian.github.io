@@ -1,9 +1,8 @@
-<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>我的阅读 | 优哈游笔记</title>
+<title>Docker Compose安装jenkins | 优哈游笔记</title>
 <meta name="description" content="晴天" />
 <link rel="shortcut icon" href="https://note.uhayo.com/favicon.ico">
 <link rel="stylesheet" href="https://note.uhayo.com/styles/main.css">
@@ -16,13 +15,23 @@
 <script src="https://note.uhayo.com/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://note.uhayo.com/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.css">
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.js'></script>
+    <meta name="description" content="Docker Compose安装jenkins
+登录服务器并创建jenkins所需要的目录
+mkdir jenkins
+
+cd jenkins
+
+touch docker-compose.yaml
+
+mkdir data
+
+配置文件
+doc..." />
+    <meta name="keywords" content="jenkins,Docker,Docker Compose" />
+    <script src="https://note.uhayo.com/media/js/waterfall.min.js"></script>
+    <script src="https://note.uhayo.com/media/js/prism.min.js"></script>
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -95,14 +104,154 @@
         </div>
       </div>
 
-      <main id="friends" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://note.uhayo.com/post-images/njgg20QZC.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-12-14"><i class="fa fa-calendar"></i><span class="lately">1 分钟前</span></time>
+              
+              <a href="https://note.uhayo.com/post/njgg20QZC/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/njgg20QZC/"> </span>
+              </a>
+              <span id="/njgg20QZC/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://note.uhayo.com/tag/jenkins/" class="ctag ctag-0 ctag-jenkins" aria-label="">jenkins</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker/" class="ctag ctag-1 ctag-Docker" aria-label="">Docker</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker-Compose/" class="ctag ctag-2 ctag-Docker-Compose" aria-label="">Docker Compose</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">Docker Compose安装jenkins</h1>
+            </div>
+          </div>
+        </div>  
+
         <div class="epcl-page-wrapper">
-          <div class="section-content" style="margin-top:3em;"></div>
-        </div>
-        </div>
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <h3 id="docker-compose安装jenkins">Docker Compose安装jenkins</h3>
+<p>登录服务器并创建jenkins所需要的目录</p>
+<pre><code class="language-bash">mkdir jenkins
+
+cd jenkins
+
+touch docker-compose.yaml
+
+mkdir data
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code class="language-yaml">jenkins:
+        image: jenkins/jenkins:lts
+        volumes:
+            - ./data/jenkins/:/var/jenkins_home
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /usr/bin/docker:/usr/bin/docker
+            - ./usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7
+        ports:
+            - &quot;2027:8080&quot;
+        expose:
+            - &quot;8080&quot;
+            - &quot;50000&quot;
+        privileged: true
+        user: root
+        restart: always
+        container_name: jenkins
+        environment:
+            JAVA_OPTS: '-Djava.util.logging.config.file=/var/jenkins_home/log.properties'
+</code></pre>
+<h3 id="启动jenkins">启动jenkins</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="权限问题">权限问题</h3>
+<p>jenkins启动成功后日志会出现报错那是因为权限问题导致的我们需要给data目录权限</p>
+<pre><code class="language-bash">chown -R 1000:1000 /data/jenkins
+</code></pre>
+<p>解决完之后我们访问jenkins服务器IP+端口访问<br>
+<img src="https://doc.mqtian.com/uploads/docker/images/m_d2179e765fdcf523cc437ae9a889035a_r.png" alt="" loading="lazy"></p>
+<p>解锁jenkins密钥如下命令会输出密钥复制到jenkins并点击继续即可</p>
+<pre><code class="language-bash">cat /data/jenkins/secrets/initialAdminPassword
+</code></pre>
+<p>如果上面的查看密钥方法没找到的话可以进入容器内查看</p>
+<pre><code class="language-bash">docker exec -it jenkins bash 
+
+cat /var/jenkins_home/secrets/initialAdminPassword
+</code></pre>
+<p>往后就是基础操作了下一步进行插件安装然后再创建用户即可</p>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/4wvNnZBoi.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/4wvNnZBoi/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Docker Compose安装Redis</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                
+                  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+<div class="clear"></div>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '9b4b268eb91a75aec0ed',
+    clientSecret: '4407b189ed051c9753b33965e3fa8699fddc76c7',
+    repo: 'talk',
+    owner: 'Uhayo',
+    admin: ['Uhayo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+                
+                
+              </div>
+            
+
+            </div>
+          </div>
       </main>
-        <footer id="footer" class="grid-container">
+
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -255,15 +404,9 @@
 
         
 
-    <script>
-    new Bmdb({
-      type: 'books',
-      selector: '.section-content',
-      secret: 'Fn62tn2X1qloULQBm3S6iT0XlQs8WJIthbQwWxn6mayzN4mtp9mdu0dChqjx2I0r',
-      noMoreText: '没有更多数据了',
-      limit: 30
-    })
-    </script>
+      
+    <script src="https://note.uhayo.com/media/js/functions-post.js"></script>
+
     </div>
     <!-- end: #wrapper -->
   </body>

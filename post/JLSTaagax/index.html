@@ -1,9 +1,8 @@
-<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>我的阅读 | 优哈游笔记</title>
+<title>Docker Compose安装Tomcat | 优哈游笔记</title>
 <meta name="description" content="晴天" />
 <link rel="shortcut icon" href="https://note.uhayo.com/favicon.ico">
 <link rel="stylesheet" href="https://note.uhayo.com/styles/main.css">
@@ -16,13 +15,18 @@
 <script src="https://note.uhayo.com/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://note.uhayo.com/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.css">
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.js'></script>
+    <meta name="description" content="Docker Compose安装Tomcat
+登录服务器并创建 conf docker-compose.yaml conf是目录Tomcat的配置文件目录后一个是文件。
+mkdir tomcat
+
+mkdir conf
+
+touch doc..." />
+    <meta name="keywords" content="Tomcat,Docker,Docker Compose" />
+    <script src="https://note.uhayo.com/media/js/waterfall.min.js"></script>
+    <script src="https://note.uhayo.com/media/js/prism.min.js"></script>
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -95,14 +99,163 @@
         </div>
       </div>
 
-      <main id="friends" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://note.uhayo.com/post-images/JLSTaagax.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-12-14"><i class="fa fa-calendar"></i><span class="lately">4 分钟前</span></time>
+              
+              <a href="https://note.uhayo.com/post/JLSTaagax/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/JLSTaagax/"> </span>
+              </a>
+              <span id="/JLSTaagax/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://note.uhayo.com/tag/Tomcat/" class="ctag ctag-0 ctag-Tomcat" aria-label="">Tomcat</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker/" class="ctag ctag-1 ctag-Docker" aria-label="">Docker</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker-Compose/" class="ctag ctag-2 ctag-Docker-Compose" aria-label="">Docker Compose</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">Docker Compose安装Tomcat</h1>
+            </div>
+          </div>
+        </div>  
+
         <div class="epcl-page-wrapper">
-          <div class="section-content" style="margin-top:3em;"></div>
-        </div>
-        </div>
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <h3 id="docker-compose安装tomcat">Docker Compose安装Tomcat</h3>
+<p>登录服务器并创建 <code>conf</code> <code>docker-compose.yaml</code> conf是目录Tomcat的配置文件目录后一个是文件。</p>
+<pre><code class="language-bash">mkdir tomcat
+
+mkdir conf
+
+touch docker-compose.yaml
+
+cd conf
+
+touch server.xml
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yaml配置文件</strong></p>
+<pre><code class="language-yaml">version: &quot;3&quot;
+services:
+    tomcat:
+        image: &quot;daocloud.io/library/tomcat:8.5.15-jre8&quot;
+        restart: always
+        container_name: tomcat
+        ports:
+          - 8080:8080 
+        volumes:
+          - ./conf/server.xml:/usr/local/tomcat/conf/server.xml
+          - ./logs:/usr/local/tomcat/logs
+          #- ./webapps://usr/local/tomcat/webapps/ # 发布war包时把注释删掉并在tomcat跟目录下创建webapps目录用于上传war包
+          - /etc/localtime:/etc/localtime:ro
+
+</code></pre>
+<p><strong>解释:</strong></p>
+<pre><code class="language-bash">端口映射前面的端口是宿主机的端口后面是容器的端口如要改tomcat端口只需要改前面的宿主机端口即可不用改容器的（改容器的端口需要同步把serve.xml内的端口也改了）
+
+ports:
+  - 8080:8080 
+</code></pre>
+<pre><code class="language-bash">下面的目录分别是tomcat配置文件目录webapps项目发布目录logs日志目录
+conf
+
+webapps
+
+logs
+</code></pre>
+<h3 id="启动tomcat">启动Tomcat</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/4wvNnZBoi.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/4wvNnZBoi/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Docker Compose安装Redis</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/x407Ei7Gs.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/x407Ei7Gs/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Docker Compose安装Nginx</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                
+                  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+<div class="clear"></div>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '9b4b268eb91a75aec0ed',
+    clientSecret: '4407b189ed051c9753b33965e3fa8699fddc76c7',
+    repo: 'talk',
+    owner: 'Uhayo',
+    admin: ['Uhayo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+                
+                
+              </div>
+            
+
+            </div>
+          </div>
       </main>
-        <footer id="footer" class="grid-container">
+
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -255,15 +408,9 @@
 
         
 
-    <script>
-    new Bmdb({
-      type: 'books',
-      selector: '.section-content',
-      secret: 'Fn62tn2X1qloULQBm3S6iT0XlQs8WJIthbQwWxn6mayzN4mtp9mdu0dChqjx2I0r',
-      noMoreText: '没有更多数据了',
-      limit: 30
-    })
-    </script>
+      
+    <script src="https://note.uhayo.com/media/js/functions-post.js"></script>
+
     </div>
     <!-- end: #wrapper -->
   </body>

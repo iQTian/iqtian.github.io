@@ -1,9 +1,8 @@
-<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>我的阅读 | 优哈游笔记</title>
+<title>Linux系统安装Docker Compose及使用 | 优哈游笔记</title>
 <meta name="description" content="晴天" />
 <link rel="shortcut icon" href="https://note.uhayo.com/favicon.ico">
 <link rel="stylesheet" href="https://note.uhayo.com/styles/main.css">
@@ -16,13 +15,15 @@
 <script src="https://note.uhayo.com/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://note.uhayo.com/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.css">
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.js'></script>
+    <meta name="description" content="Docker Compose 简介
+Docker Compose 是一种用于通过使用单个命令创建和启动 Docker 应用程序的工具。我们可以使用它来配置应用程序的服务。
+它是开发，测试和升级环境的利器。
+它提供以下命令来管理应用程序的整个..." />
+    <meta name="keywords" content="Centos7,Linux,Docker Compose" />
+    <script src="https://note.uhayo.com/media/js/waterfall.min.js"></script>
+    <script src="https://note.uhayo.com/media/js/prism.min.js"></script>
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -95,14 +96,240 @@
         </div>
       </div>
 
-      <main id="friends" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://note.uhayo.com/post-images/kjPm5W4ox.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-12-14"><i class="fa fa-calendar"></i><span class="lately">6 分钟前</span></time>
+              
+              <a href="https://note.uhayo.com/post/kjPm5W4ox/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/kjPm5W4ox/"> </span>
+              </a>
+              <span id="/kjPm5W4ox/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://note.uhayo.com/tag/Centos7/" class="ctag ctag-0 ctag-Centos7" aria-label="">Centos7</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Linux/" class="ctag ctag-1 ctag-Linux" aria-label="">Linux</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker-Compose/" class="ctag ctag-2 ctag-Docker-Compose" aria-label="">Docker Compose</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">Linux系统安装Docker Compose及使用</h1>
+            </div>
+          </div>
+        </div>  
+
         <div class="epcl-page-wrapper">
-          <div class="section-content" style="margin-top:3em;"></div>
-        </div>
-        </div>
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <h3 id="docker-compose-简介">Docker Compose 简介</h3>
+<p>Docker Compose 是一种用于通过使用单个命令创建和启动 Docker 应用程序的工具。我们可以使用它来配置应用程序的服务。</p>
+<p>它是开发，测试和升级环境的利器。</p>
+<p>它提供以下命令来管理应用程序的整个生命周期：</p>
+<ul>
+<li>
+<p>启动，停止和重建服务</p>
+</li>
+<li>
+<p>查看运行服务的状态</p>
+</li>
+<li>
+<p>流式运行服务的日志输出</p>
+</li>
+<li>
+<p>在服务上运行一次性命令</p>
+</li>
+</ul>
+<p>要实现 docker compose，需要包括以下步骤：</p>
+<ul>
+<li>
+<p>将应用程序环境变量放在 Docker 文件中以公开访问。</p>
+</li>
+<li>
+<p>在 docker-compose.yml 文件中提供和配置服务名称，以便它们可以在隔离的环境中一起运行。</p>
+</li>
+<li>
+<p>运行 docker-compose 将启动并运行整个应用程序。</p>
+</li>
+</ul>
+<h3 id="docker-compose-安装">Docker Compose 安装</h3>
+<p>以下是在 Ubuntu 系统中安装 Docker Compose 的(具体各版本linux可以手动去Github下载然后上传服务器即可)：</p>
+<pre><code>curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+</code></pre>
+<p>以下是下载进度：<br>
+<img src="/uploads/docker/images/m_62d81622aa6fb61ddce0ca17c736e629_r.png" alt="" loading="lazy"></p>
+<p>如果下载时间过长或者下载失败可以手动去Github下载 https://github.com/docker/compose/releases最新版即可下载完之后上传服务器 <code>/usr/local/bin/</code>目录下并给予执行权限</p>
+<pre><code>chmod +x /usr/local/bin/docker-compose 给你上传的docker-compose文件执行权限
+</code></pre>
+<p>如下图<br>
+<img src="/uploads/docker/images/m_3fdf778b538ea1d6e61fe523796b262e_r.png" alt="" loading="lazy"></p>
+<h3 id="验证docker-compose版本">验证Docker Compose版本</h3>
+<pre><code>docker-compose version
+</code></pre>
+<h3 id="使用docker-compose部署一个tomcat">使用Docker compose部署一个Tomcat</h3>
+<p><strong>创建一个名为Tomcat的目录并在下新建docker-compose.yml文件</strong></p>
+<pre><code>mkdir tomcat
+
+cd tomcat
+
+touch docker-compose.yaml
+
+vim docker-compose.yaml
+</code></pre>
+<p><strong>docker-compose.yaml内容：</strong></p>
+<pre><code>version: '3'
+services:
+  tomcat:
+    restart: always
+    image: tomcat
+    container_name: tomcat
+    ports:
+      - 8000:8000
+</code></pre>
+<p>参数说明：</p>
+<ul>
+<li>version：指定脚本语法解释器版本</li>
+<li>services：要启动的服务列表
+<ul>
+<li>webapp：服务名称，可以随便起名，不重复即可
+<ul>
+<li>restart：启动方式，这里的 always 表示总是启动，即使服务器重启了也会立即启动服务</li>
+<li>image：镜像的名称，默认从 Docker Hub 下载</li>
+<li>container_name：容器名称，可以随便起名，不重复即可</li>
+<li>ports：端口映射列列表，左边为宿主机端口，右边为容器端口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker-compose常用命令">Docker Compose常用命令</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>docker-compose pull</td>
+<td>拉取docker-compose.yml文件内编排的服务镜像（自定义的镜像除外因为Docker注册表上没你自定义的镜像）</td>
+</tr>
+<tr>
+<td>docker-compose up</td>
+<td>前台运行 如果中断终端时你的服务就会停止运行了</td>
+</tr>
+<tr>
+<td>docker-compose up -d</td>
+<td>后台启动</td>
+</tr>
+<tr>
+<td>docker-compose stop</td>
+<td>停止</td>
+</tr>
+<tr>
+<td>docker-compose start</td>
+<td>启动</td>
+</tr>
+<tr>
+<td>docker-compose restart</td>
+<td>重启</td>
+</tr>
+<tr>
+<td>docker-compose ps</td>
+<td>查看docker-compose.yml内编排的服务是否在运行与docker ps相同</td>
+</tr>
+<tr>
+<td>docker-compose down</td>
+<td>停止并移除容器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="访问刚刚部署的tomcat">访问刚刚部署的Tomcat</h3>
+<p>使用服务器IP+8080端口就可以访问你部署的Tomcat了<br>
+<img src="/uploads/docker/images/m_17719f9026a177b1cb42c7a712635a09_r.png" alt="" loading="lazy"></p>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/x407Ei7Gs.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/x407Ei7Gs/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Docker Compose安装Nginx</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/B10wKysO4.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/B10wKysO4/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Centos7安装Docker</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                
+                  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+<div class="clear"></div>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '9b4b268eb91a75aec0ed',
+    clientSecret: '4407b189ed051c9753b33965e3fa8699fddc76c7',
+    repo: 'talk',
+    owner: 'Uhayo',
+    admin: ['Uhayo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+                
+                
+              </div>
+            
+
+            </div>
+          </div>
       </main>
-        <footer id="footer" class="grid-container">
+
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -255,15 +482,9 @@
 
         
 
-    <script>
-    new Bmdb({
-      type: 'books',
-      selector: '.section-content',
-      secret: 'Fn62tn2X1qloULQBm3S6iT0XlQs8WJIthbQwWxn6mayzN4mtp9mdu0dChqjx2I0r',
-      noMoreText: '没有更多数据了',
-      limit: 30
-    })
-    </script>
+      
+    <script src="https://note.uhayo.com/media/js/functions-post.js"></script>
+
     </div>
     <!-- end: #wrapper -->
   </body>

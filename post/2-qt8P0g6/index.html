@@ -1,9 +1,8 @@
-<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>我的阅读 | 优哈游笔记</title>
+<title>Docker部署MySQL5.7 | 优哈游笔记</title>
 <meta name="description" content="晴天" />
 <link rel="shortcut icon" href="https://note.uhayo.com/favicon.ico">
 <link rel="stylesheet" href="https://note.uhayo.com/styles/main.css">
@@ -16,13 +15,20 @@
 <script src="https://note.uhayo.com/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://note.uhayo.com/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.css">
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.js'></script>
+    <meta name="description" content="Docker部署MySQL5.7
+新建一个目录用于存放docker-compose.yml文件
+mkdir  mysql
+
+cd mysql
+
+touch docker-compose.yml
+
+docker-compose.yml文件内容..." />
+    <meta name="keywords" content="Docker,Docker Compose,MySQL" />
+    <script src="https://note.uhayo.com/media/js/waterfall.min.js"></script>
+    <script src="https://note.uhayo.com/media/js/prism.min.js"></script>
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -95,14 +101,172 @@
         </div>
       </div>
 
-      <main id="friends" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://note.uhayo.com/post-images/2-qt8P0g6.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-12-14"><i class="fa fa-calendar"></i><span class="lately">10 分钟前</span></time>
+              
+              <a href="https://note.uhayo.com/post/2-qt8P0g6/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/2-qt8P0g6/"> </span>
+              </a>
+              <span id="/2-qt8P0g6/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://note.uhayo.com/tag/Docker/" class="ctag ctag-0 ctag-Docker" aria-label="">Docker</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker-Compose/" class="ctag ctag-1 ctag-Docker-Compose" aria-label="">Docker Compose</a>
+                    
+                      <a href="https://note.uhayo.com/tag/MySQL/" class="ctag ctag-2 ctag-MySQL" aria-label="">MySQL</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">Docker部署MySQL5.7</h1>
+            </div>
+          </div>
+        </div>  
+
         <div class="epcl-page-wrapper">
-          <div class="section-content" style="margin-top:3em;"></div>
-        </div>
-        </div>
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <h1 id="docker部署mysql57">Docker部署MySQL5.7</h1>
+<p>新建一个目录用于存放docker-compose.yml文件</p>
+<pre><code>mkdir  mysql
+
+cd mysql
+
+touch docker-compose.yml
+</code></pre>
+<h2 id="docker-composeyml文件内容如下">docker-compose.yml文件内容如下：</h2>
+<pre><code class="language-yaml">version: '3.3'
+  
+services:
+ mysql:
+  hostname: mysql
+  # 启动容器名称mysql
+  container_name: mysql
+  # 使用mysql 5.7.20的镜像
+  image: mysql:5.7.28
+  # 自启动
+  restart: always
+  command:
+   # mysql默认使用utf8mb4编码
+   - --character-set-server=utf8mb4
+   - --collation-server=utf8mb4_general_ci
+   # mysql时间加8个小时
+   - --default-time_zone=+8:00
+  environment:
+   # 服务器时区使用上海 
+   TZ: Asis/Shanghai
+   # mysql初始化密码
+   MYSQL_ROOT_PASSWORD: 1111
+  ports:
+   # 容器3306端口映射到宿主机3306端口
+   - &quot;1120:3306&quot;
+  volumes:
+   # mysql相关数据存储在宿主机/data/docker/mysql文件夹
+   - &quot;./data/:/var/lib/mysql&quot;
+
+</code></pre>
+<h2 id="拉取mysql5728镜像">拉取MySQL5.7.28镜像</h2>
+<pre><code>docker pull mysql:5.7.28
+</code></pre>
+<p>当然你也可以直接运行<code>docker-compose up -d</code>他会在运行时拉镜像</p>
+<h2 id="运行mysql">运行MySQL</h2>
+<pre><code>docker-compose up -d	# 后台运行
+
+docker-compose down	# 停止运行
+
+docker-compose restart	# 重新启动
+
+docker-compose stop	# 停止运行（不会删除运行记录）
+
+docker-compose start	# 恢复运行
+</code></pre>
+<h2 id="使用mysql客户端连接mysql">使用MySQL客户端连接MySQL</h2>
+<p>这里使用sqlyog连接</p>
+<figure data-type="image" tabindex="1"><img src="https://image.xcodei.com/image/03ec3af4622251b63ae63a265163290e.png" alt="QQ截图20200403011946.png" loading="lazy"></figure>
+<p>至此MySQL已经部署完毕</p>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/B10wKysO4.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/B10wKysO4/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Centos7安装Docker</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/hello-world.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/hello-world/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Hello world</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                
+                  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+<div class="clear"></div>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '9b4b268eb91a75aec0ed',
+    clientSecret: '4407b189ed051c9753b33965e3fa8699fddc76c7',
+    repo: 'talk',
+    owner: 'Uhayo',
+    admin: ['Uhayo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+                
+                
+              </div>
+            
+
+            </div>
+          </div>
       </main>
-        <footer id="footer" class="grid-container">
+
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -255,15 +419,9 @@
 
         
 
-    <script>
-    new Bmdb({
-      type: 'books',
-      selector: '.section-content',
-      secret: 'Fn62tn2X1qloULQBm3S6iT0XlQs8WJIthbQwWxn6mayzN4mtp9mdu0dChqjx2I0r',
-      noMoreText: '没有更多数据了',
-      limit: 30
-    })
-    </script>
+      
+    <script src="https://note.uhayo.com/media/js/functions-post.js"></script>
+
     </div>
     <!-- end: #wrapper -->
   </body>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://note.uhayo.com</id>
     <title>优哈游笔记</title>
-    <updated>2020-12-14T10:20:56.249Z</updated>
+    <updated>2020-12-14T10:37:00.741Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://note.uhayo.com"/>
     <link rel="self" href="https://note.uhayo.com/atom.xml"/>
@@ -11,7 +11,716 @@
     <icon>https://note.uhayo.com/favicon.ico</icon>
     <rights>All rights reserved 2020, 优哈游笔记</rights>
     <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <title type="html"><![CDATA[Docker Compose安装jenkins]]></title>
+        <id>https://note.uhayo.com/post/njgg20QZC/</id>
+        <link href="https://note.uhayo.com/post/njgg20QZC/">
+        </link>
+        <updated>2020-12-14T10:35:35.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="docker-compose安装jenkins">Docker Compose安装jenkins</h3>
+<p>登录服务器并创建jenkins所需要的目录</p>
+<pre><code class="language-bash">mkdir jenkins
+
+cd jenkins
+
+touch docker-compose.yaml
+
+mkdir data
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code class="language-yaml">jenkins:
+        image: jenkins/jenkins:lts
+        volumes:
+            - ./data/jenkins/:/var/jenkins_home
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /usr/bin/docker:/usr/bin/docker
+            - ./usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7
+        ports:
+            - &quot;2027:8080&quot;
+        expose:
+            - &quot;8080&quot;
+            - &quot;50000&quot;
+        privileged: true
+        user: root
+        restart: always
+        container_name: jenkins
+        environment:
+            JAVA_OPTS: '-Djava.util.logging.config.file=/var/jenkins_home/log.properties'
+</code></pre>
+<h3 id="启动jenkins">启动jenkins</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="权限问题">权限问题</h3>
+<p>jenkins启动成功后日志会出现报错那是因为权限问题导致的我们需要给data目录权限</p>
+<pre><code class="language-bash">chown -R 1000:1000 /data/jenkins
+</code></pre>
+<p>解决完之后我们访问jenkins服务器IP+端口访问<br>
+<img src="https://doc.mqtian.com/uploads/docker/images/m_d2179e765fdcf523cc437ae9a889035a_r.png" alt="" loading="lazy"></p>
+<p>解锁jenkins密钥如下命令会输出密钥复制到jenkins并点击继续即可</p>
+<pre><code class="language-bash">cat /data/jenkins/secrets/initialAdminPassword
+</code></pre>
+<p>如果上面的查看密钥方法没找到的话可以进入容器内查看</p>
+<pre><code class="language-bash">docker exec -it jenkins bash 
+
+cat /var/jenkins_home/secrets/initialAdminPassword
+</code></pre>
+<p>往后就是基础操作了下一步进行插件安装然后再创建用户即可</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker Compose安装Redis]]></title>
+        <id>https://note.uhayo.com/post/4wvNnZBoi/</id>
+        <link href="https://note.uhayo.com/post/4wvNnZBoi/">
+        </link>
+        <updated>2020-12-14T10:34:13.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="docker-compose安装redis">Docker Compose安装Redis</h3>
+<p><strong>登录服务器并创建redis目录及redis配置文件</strong></p>
+<pre><code class="language-bash">mkdir redis
+
+cd redis
+
+touch docker-compose.yaml
+
+touch redis.conf
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code class="language-yaml">version: &quot;3.3&quot;
+services:
+    redis:
+        image: &quot;redis:latest&quot;
+        container_name: redis-pord
+        restart: always
+        ports:
+          - &quot;6379:6379&quot;
+        volumes:
+          - ./redis.conf:/etc/redis/redis.conf:rw
+          - ./data:/data:rw
+        command:
+          # 执行的命令
+          redis-server /etc/redis/redis.conf --appendonly yes
+</code></pre>
+<p><strong>redis.conf配置文件</strong></p>
+<pre><code class="language-conf">requirepass 123456
+appendonly yes
+</code></pre>
+<h3 id="启动redis">启动Redis</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="测试连接redis">测试连接Redis</h3>
+<p>使用服务器IP加6379及Redis密码即可访问Redis了<br>
+<img src="/uploads/docker/images/m_c168ebd1cb1fe02b1ebf03e4ea2a71fa_r.png" alt="" loading="lazy"></p>
+<p>Redis Windows版客户端下载地址<br>
+https://github.com/qishibo/AnotherRedisDesktopManager/releases</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker Compose安装Tomcat]]></title>
+        <id>https://note.uhayo.com/post/JLSTaagax/</id>
+        <link href="https://note.uhayo.com/post/JLSTaagax/">
+        </link>
+        <updated>2020-12-14T10:33:03.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="docker-compose安装tomcat">Docker Compose安装Tomcat</h3>
+<p>登录服务器并创建 <code>conf</code> <code>docker-compose.yaml</code> conf是目录Tomcat的配置文件目录后一个是文件。</p>
+<pre><code class="language-bash">mkdir tomcat
+
+mkdir conf
+
+touch docker-compose.yaml
+
+cd conf
+
+touch server.xml
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yaml配置文件</strong></p>
+<pre><code class="language-yaml">version: &quot;3&quot;
+services:
+    tomcat:
+        image: &quot;daocloud.io/library/tomcat:8.5.15-jre8&quot;
+        restart: always
+        container_name: tomcat
+        ports:
+          - 8080:8080 
+        volumes:
+          - ./conf/server.xml:/usr/local/tomcat/conf/server.xml
+          - ./logs:/usr/local/tomcat/logs
+          #- ./webapps://usr/local/tomcat/webapps/ # 发布war包时把注释删掉并在tomcat跟目录下创建webapps目录用于上传war包
+          - /etc/localtime:/etc/localtime:ro
+
+</code></pre>
+<p><strong>解释:</strong></p>
+<pre><code class="language-bash">端口映射前面的端口是宿主机的端口后面是容器的端口如要改tomcat端口只需要改前面的宿主机端口即可不用改容器的（改容器的端口需要同步把serve.xml内的端口也改了）
+
+ports:
+  - 8080:8080 
+</code></pre>
+<pre><code class="language-bash">下面的目录分别是tomcat配置文件目录webapps项目发布目录logs日志目录
+conf
+
+webapps
+
+logs
+</code></pre>
+<h3 id="启动tomcat">启动Tomcat</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker Compose安装Nginx]]></title>
+        <id>https://note.uhayo.com/post/x407Ei7Gs/</id>
+        <link href="https://note.uhayo.com/post/x407Ei7Gs/">
+        </link>
+        <updated>2020-12-14T10:31:44.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="docker-compose安装nginx">Docker Compose安装Nginx</h3>
+<p>为什么要使用Docker Compose安装Nginx，因为Docker方便管理及配置环境等只需要一次即可发布多个环境例如：开发环境、测试环境、生产环境等。</p>
+<p><strong>接下来我们需要登录服务器并创建docker-compose.yml及目录：</strong></p>
+<p>本 <code>Nginx</code> 部署的是带 <code>HTTPS</code> 的需要创建 <code>cert</code> 证书目录在 <code>root</code> 目录下创建即可(当然不一定要在root目录下创建可以在其他路径创建后面再docker-compose.yml文件内指定即可)</p>
+<p>这里默认登录的是root用户则直接在root用户的家目录下创建证书目录</p>
+<pre><code class="language-bash">mkdir cert  # 用于存放域名证书
+</code></pre>
+<p>创建站点目录同样在root用户家目录也可以在其他地方创建后面改docker-compose.yml文件内的路径即可（web下面目录）</p>
+<pre><code class="language-bash">mkdir www
+</code></pre>
+<p>下面创建Nginx目录</p>
+<pre><code class="language-bash">mkdir nginx
+
+cd nginx
+
+mkdir conf.d
+
+touch docker-compose.yaml  # docker-compose文件
+
+touch nginx.conf  # Nginx全局配置文件
+
+cd conf.d  # 站点配置目录
+
+touch default.conf  # 这个文件是站点配置文件及一个站点
+</code></pre>
+<p>目录截图<br>
+<img src="https://doc.mqtian.com/uploads/docker/images/m_c591fb4ac6b29fe5092b90ceb130733b_r.png" alt="" loading="lazy"></p>
+<h3 id="编写配置文件">编写配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code>vim docker-compose.yaml
+</code></pre>
+<pre><code class="language-yaml">version: &quot;3&quot;
+services:
+   nginx:
+     image: nginx
+     ports:
+       - 80:80
+       - 443:443
+     volumes:
+       - ~/cert:/home/cert # HTTPS证书目录挂载到容器的home目录下
+       - ~/www:/home/www  # 挂载宿主机上的www目录到容器里的home目录下方便发布web项目
+       - ./nginx.conf:/etc/nginx/nginx.conf
+       - ./conf.d/:/etc/nginx/conf.d/
+       - ./logs:/var/log/nginx # 把容器内的Nginx日志目录挂载到宿主机
+       #- ~/download:/home/download
+       - /etc/localtime:/etc/localtime:ro #配置容器时间同步
+     restart: always
+     container_name: nginx
+</code></pre>
+<p><strong>nginx.conf配置文件</strong></p>
+<pre><code class="language-nginx">vim nginx.conf
+</code></pre>
+<pre><code>user  nginx;
+worker_processes  2;
+ 
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+ 
+ 
+events {
+    worker_connections  1024;
+}
+ 
+ 
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+ 
+    log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+                      '$status $body_bytes_sent &quot;$http_referer&quot; '
+                      '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;';
+ 
+    access_log  /var/log/nginx/access.log  main;
+ 
+    sendfile        on;
+    #tcp_nopush     on;
+ 
+    keepalive_timeout  65;
+ 
+    # 开启和关闭gzip模式
+    gzip on;
+    
+    # gizp压缩起点，文件大于1k才进行压缩
+    gzip_min_length 1k;
+    
+    # gzip 压缩级别，1-9，数字越大压缩的越好，也越占用CPU时间
+    gzip_comp_level 9;
+    
+    # 进行压缩的文件类型。
+    gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+    
+    # nginx对于静态文件的处理模块，开启后会寻找以.gz结尾的文件，直接返回，不会占用cpu进行压缩，如果找不到则不进行压缩
+    gzip_static on;
+    
+    # 是否在http header中添加Vary: Accept-Encoding，建议开启
+    gzip_vary on;
+
+    # 设置压缩所需要的缓冲区大小，以4k为单位，如果文件为7k则申请2*4k的缓冲区 
+    gzip_buffers 2 4k;
+
+    # 设置gzip压缩针对的HTTP协议版本
+    gzip_http_version 1.1;
+    
+    # 禁用IE 6 gzip
+    gzip_disable &quot;MSIE [1-6]\.&quot;;
+ 
+    include /etc/nginx/conf.d/*.conf;
+
+	# 跨域配置
+    #add_header Access-Control-Allow-Origin *;
+    #add_header Access-Control-Allow-Headers X-Requested-With;
+    #add_header Access-Control-Allow-Methods GET,POST,OPTIONS;
+
+    #server { # 配置IP跟未在conf.d目录下配置过站点的域名访问直接返回403
+		#listen    80 default_server;
+		#listen    443 ssl default_server;
+		#server_name _;
+
+		#ssl_certificate      /home/cert/nikouer.com/nikouer.com.pem;
+		#ssl_certificate_key  /home/cert/nikouer.com/nikouer.com.key;
+
+		#ssl_session_cache    shared:SSL:1m;
+		#ssl_session_timeout  5m;
+
+        #ssl_ciphers  HIGH:!aNULL:!MD5;
+        #ssl_prefer_server_ciphers  on;
+		#return 403;
+    #}
+}
+</code></pre>
+<p><strong>default.conf配置文件</strong></p>
+<pre><code class="language-nginx">vim conf.d/default.conf
+</code></pre>
+<pre><code>server {
+        listen          80;
+        server_name     mqtian.com www.mqtian.com; # 配置访问的域名（站点域名）
+        rewrite ^(.*) https://$server_name$1 permanent; # HTTP--&gt;HTTPS  即访问80端口时自动跳转443端口
+    }
+
+    server {
+        listen       443 ssl;
+        server_name  mqtian.com www.mqtian.com;
+
+        charset utf-8;
+
+        access_log  /var/log/nginx/mqtian.com.log; # 自定义日志输出
+
+        ssl_certificate      /home/cert/mqtian.com/mqtian.com.pem; # SSL证书路径
+        ssl_certificate_key  /home/cert/mqtian.com/mqtian.com.key; # SSL证书路径
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        location / {
+            #proxy_pass http://10.0.4.14:8662; # 后端地址
+            #client_max_body_size 10M;
+            #add_header Content-Security-Policy upgrade-insecure-requests; # 给站点http来源强制改变为https来源
+            #proxy_set_header Host $http_host; # Host包含客户端真实的域名和端口号
+            #proxy_set_header X-Real-IP $remote_addr; # X-Forwarded-Proto表示客户端真实的协议（http还是https）
+            #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # X-Real-IP表示客户端真实的IP
+            #proxy_set_header X-Forwarded-Proto $scheme;
+            root   /usr/share/nginx/html; # 发布web项目的目录
+            index index.html index.html;
+        }
+
+        error_page   500 502 503 504 /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+   }
+</code></pre>
+<h3 id="启动nginx">启动Nginx</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="接下来就访问试试把">接下来就访问试试把</h3>
+<p>访问刚刚部署的域名站点 https://mqtian.com</p>
+<figure data-type="image" tabindex="1"><img src="https://doc.mqtian.com/uploads/docker/images/m_b709067125d0fbb201141965c328afdd_r.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Linux系统安装Docker Compose及使用]]></title>
+        <id>https://note.uhayo.com/post/kjPm5W4ox/</id>
+        <link href="https://note.uhayo.com/post/kjPm5W4ox/">
+        </link>
+        <updated>2020-12-14T10:31:07.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="docker-compose-简介">Docker Compose 简介</h3>
+<p>Docker Compose 是一种用于通过使用单个命令创建和启动 Docker 应用程序的工具。我们可以使用它来配置应用程序的服务。</p>
+<p>它是开发，测试和升级环境的利器。</p>
+<p>它提供以下命令来管理应用程序的整个生命周期：</p>
+<ul>
+<li>
+<p>启动，停止和重建服务</p>
+</li>
+<li>
+<p>查看运行服务的状态</p>
+</li>
+<li>
+<p>流式运行服务的日志输出</p>
+</li>
+<li>
+<p>在服务上运行一次性命令</p>
+</li>
+</ul>
+<p>要实现 docker compose，需要包括以下步骤：</p>
+<ul>
+<li>
+<p>将应用程序环境变量放在 Docker 文件中以公开访问。</p>
+</li>
+<li>
+<p>在 docker-compose.yml 文件中提供和配置服务名称，以便它们可以在隔离的环境中一起运行。</p>
+</li>
+<li>
+<p>运行 docker-compose 将启动并运行整个应用程序。</p>
+</li>
+</ul>
+<h3 id="docker-compose-安装">Docker Compose 安装</h3>
+<p>以下是在 Ubuntu 系统中安装 Docker Compose 的(具体各版本linux可以手动去Github下载然后上传服务器即可)：</p>
+<pre><code>curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+</code></pre>
+<p>以下是下载进度：<br>
+<img src="/uploads/docker/images/m_62d81622aa6fb61ddce0ca17c736e629_r.png" alt="" loading="lazy"></p>
+<p>如果下载时间过长或者下载失败可以手动去Github下载 https://github.com/docker/compose/releases最新版即可下载完之后上传服务器 <code>/usr/local/bin/</code>目录下并给予执行权限</p>
+<pre><code>chmod +x /usr/local/bin/docker-compose 给你上传的docker-compose文件执行权限
+</code></pre>
+<p>如下图<br>
+<img src="/uploads/docker/images/m_3fdf778b538ea1d6e61fe523796b262e_r.png" alt="" loading="lazy"></p>
+<h3 id="验证docker-compose版本">验证Docker Compose版本</h3>
+<pre><code>docker-compose version
+</code></pre>
+<h3 id="使用docker-compose部署一个tomcat">使用Docker compose部署一个Tomcat</h3>
+<p><strong>创建一个名为Tomcat的目录并在下新建docker-compose.yml文件</strong></p>
+<pre><code>mkdir tomcat
+
+cd tomcat
+
+touch docker-compose.yaml
+
+vim docker-compose.yaml
+</code></pre>
+<p><strong>docker-compose.yaml内容：</strong></p>
+<pre><code>version: '3'
+services:
+  tomcat:
+    restart: always
+    image: tomcat
+    container_name: tomcat
+    ports:
+      - 8000:8000
+</code></pre>
+<p>参数说明：</p>
+<ul>
+<li>version：指定脚本语法解释器版本</li>
+<li>services：要启动的服务列表
+<ul>
+<li>webapp：服务名称，可以随便起名，不重复即可
+<ul>
+<li>restart：启动方式，这里的 always 表示总是启动，即使服务器重启了也会立即启动服务</li>
+<li>image：镜像的名称，默认从 Docker Hub 下载</li>
+<li>container_name：容器名称，可以随便起名，不重复即可</li>
+<li>ports：端口映射列列表，左边为宿主机端口，右边为容器端口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker-compose常用命令">Docker Compose常用命令</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>docker-compose pull</td>
+<td>拉取docker-compose.yml文件内编排的服务镜像（自定义的镜像除外因为Docker注册表上没你自定义的镜像）</td>
+</tr>
+<tr>
+<td>docker-compose up</td>
+<td>前台运行 如果中断终端时你的服务就会停止运行了</td>
+</tr>
+<tr>
+<td>docker-compose up -d</td>
+<td>后台启动</td>
+</tr>
+<tr>
+<td>docker-compose stop</td>
+<td>停止</td>
+</tr>
+<tr>
+<td>docker-compose start</td>
+<td>启动</td>
+</tr>
+<tr>
+<td>docker-compose restart</td>
+<td>重启</td>
+</tr>
+<tr>
+<td>docker-compose ps</td>
+<td>查看docker-compose.yml内编排的服务是否在运行与docker ps相同</td>
+</tr>
+<tr>
+<td>docker-compose down</td>
+<td>停止并移除容器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="访问刚刚部署的tomcat">访问刚刚部署的Tomcat</h3>
+<p>使用服务器IP+8080端口就可以访问你部署的Tomcat了<br>
+<img src="/uploads/docker/images/m_17719f9026a177b1cb42c7a712635a09_r.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Centos7安装Docker]]></title>
+        <id>https://note.uhayo.com/post/B10wKysO4/</id>
+        <link href="https://note.uhayo.com/post/B10wKysO4/">
+        </link>
+        <updated>2020-12-14T10:30:02.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="docker简介">Docker简介</h3>
+<p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。</p>
+<p>Docker 使用客户端-服务器 (C/S) 架构模式 使用远程API来管理和创建Docker容器。Docker 容器（Container）通过 Docker 镜像（Image）来创建，二者之间的关系类似于面向对象编程中的对象与类</p>
+<p>那Docker由什么组成呢， 包括三个基本概念:</p>
+<ul>
+<li>
+<p>仓库（Repository）</p>
+</li>
+<li>
+<p>镜像（Image）</p>
+</li>
+<li>
+<p>容器(Container）</p>
+</li>
+</ul>
+<p>其中Registry是Docker用于存放镜像文件的仓库，Docker 仓库的概念跟Git 类似（就像商店存放所有的英雄，只是更改英雄的权限在某些非程序员手里）。</p>
+<p>所谓镜像就是构建容器的源代码，是一个只读的模板，由一层一层的文件系统组成的，类似于虚拟机的镜像（英雄也是只读的，有自己的技能被动，你也不能进行操作）。</p>
+<p>那么容器就是由Docker镜像创建的运行实例，类似于虚拟机，容器之间是相互隔离的，包含特定的应用及其所需的依赖文件（好比每个英雄都是隔离的，都有自己的皮肤，技能以及走的路线)。</p>
+<p>注：Docker Hub是Docker公司提供的一个注册服务器（Register）来保存多个仓库，每个仓库又可以包含多个具备不同tag的镜像。</p>
+<h3 id="安装docker">安装Docker</h3>
+<p>Centos7，linux 3.10 内核，docker官方说至少3.8以上，建议3.10以上（ubuntu下要linux内核3.8以上， RHEL/Centos 的内核修补过， centos6.5的版本就可以——这个可以试试）</p>
+<h5 id="root账户登录查看内核版本如下">root账户登录，查看内核版本如下</h5>
+<pre><code class="language-bash">uname -a
+</code></pre>
+<h4 id="把yum包更新到最新">把yum包更新到最新</h4>
+<pre><code class="language-bash">yum update  # 期间要选择确认，输入 y 即可
+</code></pre>
+<h4 id="安装需要的软件包-yum-util-提供yum-config-manager功能另外两个是devicemapper驱动依赖的">安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的</h4>
+<pre><code class="language-bash">yum install -y yum-utils device-mapper-persistent-data lvm2
+</code></pre>
+<h4 id="设置yum源选择其中一个">设置yum源（选择其中一个）</h4>
+<pre><code class="language-bash">yum-config-manager --add-repo http://download.docker.com/linux/centos/docker-ce.repo（中央仓库）# Docker官方的
+
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo（阿里仓库）# 阿里云的速度在国内速度快
+
+yum-config-manager --add-repo # 设置完yum源后执行
+</code></pre>
+<h4 id="可以查看所有仓库中所有docker版本并选择特定版本安装">可以查看所有仓库中所有docker版本，并选择特定版本安装</h4>
+<pre><code class="language-bash">yum list docker-ce --showduplicates | sort -r
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="/uploads/linux/images/m_fd10ac180f1164ad66987c5521b63f15_r.png" alt="" loading="lazy"></figure>
+<h4 id="安装docker命令yum-install-docker-ce">安装Docker，命令：yum install docker-ce</h4>
+<pre><code class="language-bash">yum install -y docker-ce   #或者
+
+yum install -y docker-ce-18.03.1.ce   # 安装指定版本
+</code></pre>
+<h4 id="启动docker">启动Docker</h4>
+<pre><code class="language-bash">systemctl start docker # 启动Docker
+systemctl enable  docker # 设置开机启动
+</code></pre>
+<h4 id="查看版本">查看版本</h4>
+<pre><code class="language-bash">docker version # 执行后输出Docker版本信息
+</code></pre>
+<h4 id="docker常用命令">Docker常用命令</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>docker pull nginx:latest</td>
+<td>拉取nginx镜像也可以换成要拉取的其他镜像</td>
+</tr>
+<tr>
+<td>docker images</td>
+<td>查看拉取好的所有镜像</td>
+</tr>
+<tr>
+<td>docker run -d nginx -p 80:80 --name nginx nginx:latest</td>
+<td>运行Nginx <code>-p 80:80</code> 映射容器80端口到宿主机80端口 <code>--name nginx</code> 是给该容器起一个别名，最后是运行的镜像 <code>Nginx</code></td>
+</tr>
+<tr>
+<td>docker run -d nginx -p 80:80 -v /www:/www --name nginx nginx:latest</td>
+<td><code>-v /www:/www</code> 是挂载宿主机 <code>/www</code> 目录到容器里作用是发布web项目</td>
+</tr>
+<tr>
+<td>docker run -d nginx -p 80:80 -v /www:/www -e --name nginx nginx:latest</td>
+<td><code>-e</code> 可以传递你在Dockerfile文件里配置的变量, <code>传递环境变量</code> 适用于自定义的镜像</td>
+</tr>
+<tr>
+<td>docker stop nginx</td>
+<td>停止运行别名为 <code>nginx</code> 的容器</td>
+</tr>
+<tr>
+<td>docker start nginx</td>
+<td>启动别名为 <code>nginx</code> 的容器</td>
+</tr>
+<tr>
+<td>docker restart nginx</td>
+<td>重新启动别名为 <code>nginx</code> 的容器</td>
+</tr>
+<tr>
+<td>docker ps</td>
+<td>查看已停止运行的容器</td>
+</tr>
+<tr>
+<td>docker ps -a</td>
+<td><code>-a</code> 显示所有的容器，包括未运行的</td>
+</tr>
+<tr>
+<td>docker ps -f</td>
+<td><code>-f</code> 根据条件过滤显示的内容</td>
+</tr>
+<tr>
+<td>docker --format</td>
+<td><code>--format</code> 指定返回值的模板文件</td>
+</tr>
+<tr>
+<td>docker ps -l</td>
+<td><code>-l</code> 显示最近创建的容器</td>
+</tr>
+<tr>
+<td>docker ps -1</td>
+<td><code>-q</code> 静默模式，只显示容器编号</td>
+</tr>
+<tr>
+<td>docker ps -s</td>
+<td><code>-s</code> 显示总的文件大小</td>
+</tr>
+<tr>
+<td>docker rm nginx</td>
+<td>删除已停止运行的nginx</td>
+</tr>
+<tr>
+<td>docker rmi nginx</td>
+<td>删除nginx镜像</td>
+</tr>
+<tr>
+<td>docker run -d --name selenium_hub selenium/hub  docker run -d --name node --link selenium_hub:hub selenium/node-chrome-debug</td>
+<td>创建并启动名为node的容器，并把该容器和名为selenium_hub的容器链接起来。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker部署MySQL5.7]]></title>
+        <id>https://note.uhayo.com/post/2-qt8P0g6/</id>
+        <link href="https://note.uhayo.com/post/2-qt8P0g6/">
+        </link>
+        <updated>2020-12-14T10:27:09.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="docker部署mysql57">Docker部署MySQL5.7</h1>
+<p>新建一个目录用于存放docker-compose.yml文件</p>
+<pre><code>mkdir  mysql
+
+cd mysql
+
+touch docker-compose.yml
+</code></pre>
+<h2 id="docker-composeyml文件内容如下">docker-compose.yml文件内容如下：</h2>
+<pre><code class="language-yaml">version: '3.3'
+  
+services:
+ mysql:
+  hostname: mysql
+  # 启动容器名称mysql
+  container_name: mysql
+  # 使用mysql 5.7.20的镜像
+  image: mysql:5.7.28
+  # 自启动
+  restart: always
+  command:
+   # mysql默认使用utf8mb4编码
+   - --character-set-server=utf8mb4
+   - --collation-server=utf8mb4_general_ci
+   # mysql时间加8个小时
+   - --default-time_zone=+8:00
+  environment:
+   # 服务器时区使用上海 
+   TZ: Asis/Shanghai
+   # mysql初始化密码
+   MYSQL_ROOT_PASSWORD: 1111
+  ports:
+   # 容器3306端口映射到宿主机3306端口
+   - &quot;1120:3306&quot;
+  volumes:
+   # mysql相关数据存储在宿主机/data/docker/mysql文件夹
+   - &quot;./data/:/var/lib/mysql&quot;
+
+</code></pre>
+<h2 id="拉取mysql5728镜像">拉取MySQL5.7.28镜像</h2>
+<pre><code>docker pull mysql:5.7.28
+</code></pre>
+<p>当然你也可以直接运行<code>docker-compose up -d</code>他会在运行时拉镜像</p>
+<h2 id="运行mysql">运行MySQL</h2>
+<pre><code>docker-compose up -d	# 后台运行
+
+docker-compose down	# 停止运行
+
+docker-compose restart	# 重新启动
+
+docker-compose stop	# 停止运行（不会删除运行记录）
+
+docker-compose start	# 恢复运行
+</code></pre>
+<h2 id="使用mysql客户端连接mysql">使用MySQL客户端连接MySQL</h2>
+<p>这里使用sqlyog连接</p>
+<figure data-type="image" tabindex="1"><img src="https://image.xcodei.com/image/03ec3af4622251b63ae63a265163290e.png" alt="QQ截图20200403011946.png" loading="lazy"></figure>
+<p>至此MySQL已经部署完毕</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello world]]></title>
         <id>https://note.uhayo.com/post/hello-world/</id>
         <link href="https://note.uhayo.com/post/hello-world/">
         </link>

@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 | 优哈游笔记</title>
+<title>Docker Compose安装Nginx | 优哈游笔记</title>
 <meta name="description" content="晴天" />
 <link rel="shortcut icon" href="https://note.uhayo.com/favicon.ico">
 <link rel="stylesheet" href="https://note.uhayo.com/styles/main.css">
@@ -15,15 +15,10 @@
 <script src="https://note.uhayo.com/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://note.uhayo.com/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <meta name="description" content="
-欢迎来到我的小站呀，很高兴遇见你！🤝
-
-🏠 关于本站
-👨‍💻 博主是谁
-⛹ 兴趣爱好
-📬 联系我呀
-..." />
-    <meta name="keywords" content="" />
+    <meta name="description" content="Docker Compose安装Nginx
+为什么要使用Docker Compose安装Nginx，因为Docker方便管理及配置环境等只需要一次即可发布多个环境例如：开发环境、测试环境、生产环境等。
+接下来我们需要登录服务器并创建dock..." />
+    <meta name="keywords" content="Nginx,Docker,Docker Compose" />
     <script src="https://note.uhayo.com/media/js/waterfall.min.js"></script>
     <script src="https://note.uhayo.com/media/js/prism.min.js"></script>
   </head>
@@ -103,21 +98,27 @@
       <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
         <div class="center content">
-          <div class="featured-image cover" style="background-image: url('https://note.uhayo.com/post-images/about.jpg');">
+          <div class="featured-image cover" style="background-image: url('https://note.uhayo.com/post-images/x407Ei7Gs.jpg');">
             <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2019-01-25"><i class="fa fa-calendar"></i><span class="lately">2 年前</span></time>
+              <time class="meta-info" style="float:left;" datetime="2020-12-14"><i class="fa fa-calendar"></i><span class="lately">5 分钟前</span></time>
               
-              <a href="https://note.uhayo.com/post/about/#comments" class="comments meta-info" title="">
-                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/about/"> </span>
+              <a href="https://note.uhayo.com/post/x407Ei7Gs/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/x407Ei7Gs/"> </span>
               </a>
-              <span id="/about/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              <span id="/x407Ei7Gs/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
               
             </div>
             <div class="info">
               <div class="tags ">
                 
+                      <a href="https://note.uhayo.com/tag/Nginx/" class="ctag ctag-0 ctag-Nginx" aria-label="">Nginx</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker/" class="ctag ctag-1 ctag-Docker" aria-label="">Docker</a>
+                    
+                      <a href="https://note.uhayo.com/tag/Docker-Compose/" class="ctag ctag-2 ctag-Docker-Compose" aria-label="">Docker Compose</a>
+                    
               </div>
-              <h1 class="title ularge white bold">关于</h1>
+              <h1 class="title ularge white bold">Docker Compose安装Nginx</h1>
             </div>
           </div>
         </div>  
@@ -127,13 +128,190 @@
             <article class="main-article post">
               <section class="post-content">
                 <div class="text">
-                  <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+                  <h3 id="docker-compose安装nginx">Docker Compose安装Nginx</h3>
+<p>为什么要使用Docker Compose安装Nginx，因为Docker方便管理及配置环境等只需要一次即可发布多个环境例如：开发环境、测试环境、生产环境等。</p>
+<p><strong>接下来我们需要登录服务器并创建docker-compose.yml及目录：</strong></p>
+<p>本 <code>Nginx</code> 部署的是带 <code>HTTPS</code> 的需要创建 <code>cert</code> 证书目录在 <code>root</code> 目录下创建即可(当然不一定要在root目录下创建可以在其他路径创建后面再docker-compose.yml文件内指定即可)</p>
+<p>这里默认登录的是root用户则直接在root用户的家目录下创建证书目录</p>
+<pre><code class="language-bash">mkdir cert  # 用于存放域名证书
+</code></pre>
+<p>创建站点目录同样在root用户家目录也可以在其他地方创建后面改docker-compose.yml文件内的路径即可（web下面目录）</p>
+<pre><code class="language-bash">mkdir www
+</code></pre>
+<p>下面创建Nginx目录</p>
+<pre><code class="language-bash">mkdir nginx
+
+cd nginx
+
+mkdir conf.d
+
+touch docker-compose.yaml  # docker-compose文件
+
+touch nginx.conf  # Nginx全局配置文件
+
+cd conf.d  # 站点配置目录
+
+touch default.conf  # 这个文件是站点配置文件及一个站点
+</code></pre>
+<p>目录截图<br>
+<img src="https://doc.mqtian.com/uploads/docker/images/m_c591fb4ac6b29fe5092b90ceb130733b_r.png" alt="" loading="lazy"></p>
+<h3 id="编写配置文件">编写配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code>vim docker-compose.yaml
+</code></pre>
+<pre><code class="language-yaml">version: &quot;3&quot;
+services:
+   nginx:
+     image: nginx
+     ports:
+       - 80:80
+       - 443:443
+     volumes:
+       - ~/cert:/home/cert # HTTPS证书目录挂载到容器的home目录下
+       - ~/www:/home/www  # 挂载宿主机上的www目录到容器里的home目录下方便发布web项目
+       - ./nginx.conf:/etc/nginx/nginx.conf
+       - ./conf.d/:/etc/nginx/conf.d/
+       - ./logs:/var/log/nginx # 把容器内的Nginx日志目录挂载到宿主机
+       #- ~/download:/home/download
+       - /etc/localtime:/etc/localtime:ro #配置容器时间同步
+     restart: always
+     container_name: nginx
+</code></pre>
+<p><strong>nginx.conf配置文件</strong></p>
+<pre><code class="language-nginx">vim nginx.conf
+</code></pre>
+<pre><code>user  nginx;
+worker_processes  2;
+ 
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+ 
+ 
+events {
+    worker_connections  1024;
+}
+ 
+ 
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+ 
+    log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+                      '$status $body_bytes_sent &quot;$http_referer&quot; '
+                      '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;';
+ 
+    access_log  /var/log/nginx/access.log  main;
+ 
+    sendfile        on;
+    #tcp_nopush     on;
+ 
+    keepalive_timeout  65;
+ 
+    # 开启和关闭gzip模式
+    gzip on;
+    
+    # gizp压缩起点，文件大于1k才进行压缩
+    gzip_min_length 1k;
+    
+    # gzip 压缩级别，1-9，数字越大压缩的越好，也越占用CPU时间
+    gzip_comp_level 9;
+    
+    # 进行压缩的文件类型。
+    gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+    
+    # nginx对于静态文件的处理模块，开启后会寻找以.gz结尾的文件，直接返回，不会占用cpu进行压缩，如果找不到则不进行压缩
+    gzip_static on;
+    
+    # 是否在http header中添加Vary: Accept-Encoding，建议开启
+    gzip_vary on;
+
+    # 设置压缩所需要的缓冲区大小，以4k为单位，如果文件为7k则申请2*4k的缓冲区 
+    gzip_buffers 2 4k;
+
+    # 设置gzip压缩针对的HTTP协议版本
+    gzip_http_version 1.1;
+    
+    # 禁用IE 6 gzip
+    gzip_disable &quot;MSIE [1-6]\.&quot;;
+ 
+    include /etc/nginx/conf.d/*.conf;
+
+	# 跨域配置
+    #add_header Access-Control-Allow-Origin *;
+    #add_header Access-Control-Allow-Headers X-Requested-With;
+    #add_header Access-Control-Allow-Methods GET,POST,OPTIONS;
+
+    #server { # 配置IP跟未在conf.d目录下配置过站点的域名访问直接返回403
+		#listen    80 default_server;
+		#listen    443 ssl default_server;
+		#server_name _;
+
+		#ssl_certificate      /home/cert/nikouer.com/nikouer.com.pem;
+		#ssl_certificate_key  /home/cert/nikouer.com/nikouer.com.key;
+
+		#ssl_session_cache    shared:SSL:1m;
+		#ssl_session_timeout  5m;
+
+        #ssl_ciphers  HIGH:!aNULL:!MD5;
+        #ssl_prefer_server_ciphers  on;
+		#return 403;
+    #}
+}
+</code></pre>
+<p><strong>default.conf配置文件</strong></p>
+<pre><code class="language-nginx">vim conf.d/default.conf
+</code></pre>
+<pre><code>server {
+        listen          80;
+        server_name     mqtian.com www.mqtian.com; # 配置访问的域名（站点域名）
+        rewrite ^(.*) https://$server_name$1 permanent; # HTTP--&gt;HTTPS  即访问80端口时自动跳转443端口
+    }
+
+    server {
+        listen       443 ssl;
+        server_name  mqtian.com www.mqtian.com;
+
+        charset utf-8;
+
+        access_log  /var/log/nginx/mqtian.com.log; # 自定义日志输出
+
+        ssl_certificate      /home/cert/mqtian.com/mqtian.com.pem; # SSL证书路径
+        ssl_certificate_key  /home/cert/mqtian.com/mqtian.com.key; # SSL证书路径
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        location / {
+            #proxy_pass http://10.0.4.14:8662; # 后端地址
+            #client_max_body_size 10M;
+            #add_header Content-Security-Policy upgrade-insecure-requests; # 给站点http来源强制改变为https来源
+            #proxy_set_header Host $http_host; # Host包含客户端真实的域名和端口号
+            #proxy_set_header X-Real-IP $remote_addr; # X-Forwarded-Proto表示客户端真实的协议（http还是https）
+            #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # X-Real-IP表示客户端真实的IP
+            #proxy_set_header X-Forwarded-Proto $scheme;
+            root   /usr/share/nginx/html; # 发布web项目的目录
+            index index.html index.html;
+        }
+
+        error_page   500 502 503 504 /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+   }
+</code></pre>
+<h3 id="启动nginx">启动Nginx</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="接下来就访问试试把">接下来就访问试试把</h3>
+<p>访问刚刚部署的域名站点 https://mqtian.com</p>
+<figure data-type="image" tabindex="1"><img src="https://doc.mqtian.com/uploads/docker/images/m_b709067125d0fbb201141965c328afdd_r.png" alt="" loading="lazy"></figure>
 
                 </div>
                 <div class="clear"></div>
@@ -143,6 +321,32 @@
 
             <section class="related section">
               
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/JLSTaagax.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/JLSTaagax/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Docker Compose安装Tomcat</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://note.uhayo.com/post-images/kjPm5W4ox.jpg');"></div>
+                 <a href="https://note.uhayo.com/post/kjPm5W4ox/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-12-14">2020-12-14</time>
+                  <h4 class="title white no-margin">Linux系统安装Docker Compose及使用</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://note.uhayo.com/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
               
 
                 <div class="clear"></div>
