@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://note.uhayo.com</id>
     <title>优哈游笔记</title>
-    <updated>2020-12-14T09:34:55.904Z</updated>
+    <updated>2020-12-14T09:55:32.274Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://note.uhayo.com"/>
     <link rel="self" href="https://note.uhayo.com/atom.xml"/>
@@ -12,10 +12,10 @@
     <rights>All rights reserved 2020, 优哈游笔记</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://note.uhayo.com/post/hello-gridea/</id>
-        <link href="https://note.uhayo.com/post/hello-gridea/">
+        <id>https://note.uhayo.com/post/hello-world/</id>
+        <link href="https://note.uhayo.com/post/hello-world/">
         </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
+        <updated>2020-12-14T09:48:46.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
 ✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
 ]]></summary>
