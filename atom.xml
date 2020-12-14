@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://note.uhayo.com</id>
     <title>优哈游笔记</title>
-    <updated>2020-12-14T10:37:00.741Z</updated>
+    <updated>2020-12-14T10:43:58.062Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://note.uhayo.com"/>
     <link rel="self" href="https://note.uhayo.com/atom.xml"/>
@@ -10,6 +10,301 @@
     <logo>https://note.uhayo.com/images/avatar.png</logo>
     <icon>https://note.uhayo.com/favicon.ico</icon>
     <rights>All rights reserved 2020, 优哈游笔记</rights>
+    <entry>
+        <title type="html"><![CDATA[博客嵌入自适应 B 站视频]]></title>
+        <id>https://note.uhayo.com/post/OX3rttR5U/</id>
+        <link href="https://note.uhayo.com/post/OX3rttR5U/">
+        </link>
+        <updated>2020-12-14T10:43:06.000Z</updated>
+        <summary type="html"><![CDATA[<h1 id="如何嵌入-b-站视频">如何嵌入 B 站视频</h1>
+<p>B 站的网页版已经提供了内嵌的 iframe 代码，我们只需要一键复制后就可以直接使用。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h1 id="如何嵌入-b-站视频">如何嵌入 B 站视频</h1>
+<p>B 站的网页版已经提供了内嵌的 iframe 代码，我们只需要一键复制后就可以直接使用。</p>
+<!-- more -->
+<figure data-type="image" tabindex="1"><img src="https://weqtian.com/upload/2020/12/image-8404bf01debb48c8abda7359d097130a.png" alt="image.png" loading="lazy"></figure>
+<h1 id="外链的引用方式">外链的引用方式</h1>
+<p>但是 B 站提供的外链在页面上显示经常是&quot;残废版&quot;，而且不能调节清晰度、弹幕之类的，也不能全屏，非常影响体验。</p>
+<p><strong>原版链接</strong></p>
+<pre><code class="language-html">&lt;iframe src=&quot;//player.bilibili.com/player.html?aid=328334002&amp;bvid=BV1tA411q7xi&amp;cid=193834244&amp;page=1&quot; scrolling=&quot;no&quot; border=&quot;0&quot; frameborder=&quot;no&quot; framespacing=&quot;0&quot; allowfullscreen=&quot;true&quot;&gt; &lt;/iframe&gt;
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://weqtian.com/upload/2020/12/image-f638c84cdd5a47afaa1a1a29dab25449.png" alt="image.png" loading="lazy"></figure>
+<h1 id="增大版本">增大版本</h1>
+<p>于是就想给它增大一下，也就是用 html 的方式调一下 width 和 height 的大小。</p>
+<pre><code class="language-html">&lt;iframe src=&quot;//player.bilibili.com/player.html?aid=328334002&amp;bvid=BV1tA411q7xi&amp;cid=193834244&amp;page=1&quot; frameborder=&quot;no&quot; scrolling=&quot;no&quot; width=&quot;95%&quot; height=&quot;600&quot;&gt;&lt;/iframe&gt;&lt;/iframe&gt;
+</code></pre>
+<p>这样其实一般来说是够用了，但是它也有问题，就是移动端适配非常差，我们能不能搞一种更通用的引用方式呢？</p>
+<figure data-type="image" tabindex="3"><img src="https://weqtian.com/upload/2020/12/image-f5ce969bf0e24122b21cbc7821f0c598.png" alt="image.png" loading="lazy"></figure>
+<h1 id="自适应版">自适应版</h1>
+<p>前面引那么多就是为了给出最后这个结论，当然是可以实现自适应的，代码如下，</p>
+<pre><code class="language-html">&lt;div style=&quot;position: relative; padding: 30% 45%;&quot;&gt;
+&lt;iframe style=&quot;position: absolute; width: 100%; height: 100%; left: 0; top: 0;&quot; src=&quot;//player.bilibili.com/player.html?aid=52516662&amp;bvid=BV1o4411E7xW&amp;cid=91907659&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=1&quot; scrolling=&quot;no&quot; border=&quot;0&quot; frameborder=&quot;no&quot; framespacing=&quot;0&quot; allowfullscreen=&quot;true&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+</code></pre>
+<div style="position: relative; padding: 30% 45%;">
+<iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="//player.bilibili.com/player.html?aid=39425207&bvid=BV1Tt411678p&cid=70027240&page=1&as_wide=1&high_quality=1&danmaku=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+</div>
+<p><strong>参数说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aid</td>
+<td>之前 B 站使用的 AV 号</td>
+</tr>
+<tr>
+<td>bvid</td>
+<td>目前的 BV 号</td>
+</tr>
+<tr>
+<td>page</td>
+<td>第几个视频, 起始下标为 1 (默认值也是为 1)就是 B 站视频, 选集里的, 第几个视频</td>
+</tr>
+<tr>
+<td>as_wide</td>
+<td>是否宽屏 【1: 宽屏, 0: 小屏】</td>
+</tr>
+<tr>
+<td>high_quality</td>
+<td>是否高清 【1: 高清(最高1080p) / 0: 最低视频质量(默认)】</td>
+</tr>
+<tr>
+<td>danmaku</td>
+<td>是否开启弹幕 【1: 开启(默认), 0: 关闭】</td>
+</tr>
+</tbody>
+</table>
+<p><strong>相关信息：</strong></p>
+<p>经测试 <code>high_quality</code> 参数可以正常使用，此参数控制外链播放器的默认清晰度：<br>
+=1 时默认清晰度是最高非大会员清晰度，例如：<br>
+（1）原视频清晰度有 360p、480p、720p，外链播放器默认为最高的 720p，<br>
+（2）原视频清晰度有 360p、480p、720p、1080p，外链播放器默认为最高的 1080p，<br>
+（3）原视频清晰度有 360p、480p、720p、1080p、1080p+，外链播放器默认为 1080p，<br>
+选择其他清晰度会打开原视频页面，</p>
+<p>注本文引用 https://bestzuo.cn/posts/blog-bilbli.html 该文章，如有侵权请联系删除。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nginx反向代理后端获取客户端真实IP]]></title>
+        <id>https://note.uhayo.com/post/EqmcpNqS9/</id>
+        <link href="https://note.uhayo.com/post/EqmcpNqS9/">
+        </link>
+        <updated>2020-12-14T10:42:21.000Z</updated>
+        <summary type="html"><![CDATA[<p>Nginx反向代理后，Servlet应用通过request.getRemoteAddr()取到的IP是Nginx的IP地址，并非客户端真实IP，通过request.getRequestURL()获取的域名、协议、端口都是Nginx访问Web应用时的域名、协议、端口，而非客户端浏览器地址栏上的真实域名、协议、端口。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Nginx反向代理后，Servlet应用通过request.getRemoteAddr()取到的IP是Nginx的IP地址，并非客户端真实IP，通过request.getRequestURL()获取的域名、协议、端口都是Nginx访问Web应用时的域名、协议、端口，而非客户端浏览器地址栏上的真实域名、协议、端口。</p>
+<!-- more -->
+<p>Nginx的反向代理实际上是客户端和真实的应用服务器之间的一个桥梁，客户端（一般是浏览器）访问Nginx服务器，Nginx再去访问Web应用服务器。对于Web应用来说，这次HTTP请求的客户端是Nginx而非真实的客户端浏览器，如果不做特殊处理的话，Web应用会把Nginx当作请求的客户端，获取到的客户端信息就是Nginx的一些信息。</p>
+<p>解决这个问题要从两个方面来解决：</p>
+<ol>
+<li>由于Nginx是代理服务器，所有客户端请求都从Nginx转发到Tomcat，如果Nginx不把客户端真实IP、域名、协议、端口告诉Tomcat，那么Tomcat应用是永远不会知道这些信息的，所以需要Nginx配置一些HTTP Header来将这些信息告诉被代理的Tomcat；</li>
+<li>Tomcat这一端，不能再傻乎乎的获取直接和它连接的客户端（也就是Nginx）的信息，而是要从Nginx传递过来的HTTP Header中获取客户端信息。</li>
+</ol>
+<h1 id="废话不多说直接上配置">废话不多说直接上配置</h1>
+<p>在代理的每个location处添加以下配置：</p>
+<pre><code class="language-nginx">proxy_set_header Host $http_host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+</code></pre>
+<p>解释以下上面的配置，以上配置是在Nginx反向代理的时候，添加一些请求Header。</p>
+<ol>
+<li>Host包含客户端真实的域名和端口号；</li>
+<li>X-Forwarded-Proto表示客户端真实的协议（http还是https）；</li>
+<li>X-Real-IP表示客户端真实的IP；</li>
+<li>X-Forwarded-For这个Header和X-Real-IP类似，但它在多层代理时会包含真实客户端及中间每个代理服务器的IP。</li>
+</ol>
+<p><strong>配置到这一步后，还不能彻底解决问题。tomcat也需要配置</strong></p>
+<p>如果你在网上搜索“Java如何获取客户端真实IP”，搜索到的解决方案大多是通过获取HTTP请求头request.getHeader(&quot;X-Forwarded-For&quot;)或request.getHeader(&quot;X-Real-IP&quot;)来实现，也就是上面在Nginx上配置的Header，这种方案获取的结果的确是正确的，但觉得并不优雅。因为既然Servlet API提供了request.getRemoteAddr()方法获取客户端IP，那么无论有没有用反向代理对于代码编写者来说应该是透明的。下面介绍一种更加优雅的方式。</p>
+<p>使用Tomcat作为应用服务器，可以通过配置Tomcat的server.xml文件，在Host元素内最后加入：即可</p>
+<pre><code class="language-xml">&lt;Valve className=&quot;org.apache.catalina.valves.RemoteIpValve&quot; /&gt;
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Centos7 firewalld 防火墙配置]]></title>
+        <id>https://note.uhayo.com/post/zZ8m-9eWA/</id>
+        <link href="https://note.uhayo.com/post/zZ8m-9eWA/">
+        </link>
+        <updated>2020-12-14T10:41:34.000Z</updated>
+        <summary type="html"><![CDATA[<h1 id="centos7防火墙开放端口-删除端口-查看已开放的端口等">Centos7防火墙开放端口、删除端口、查看已开放的端口等</h1>
+<p>Centos7默认安装了firewalld，如果没有安装的话，则需要YUM命令安装；firewalld真的用不习惯，与之前的iptable防火墙区别太大，但毕竟是未来主流讲究慢慢磨合它的设置规则；</p>
+]]></summary>
+        <content type="html"><![CDATA[<h1 id="centos7防火墙开放端口-删除端口-查看已开放的端口等">Centos7防火墙开放端口、删除端口、查看已开放的端口等</h1>
+<p>Centos7默认安装了firewalld，如果没有安装的话，则需要YUM命令安装；firewalld真的用不习惯，与之前的iptable防火墙区别太大，但毕竟是未来主流讲究慢慢磨合它的设置规则；</p>
+<!-- more -->
+<h2 id="安装firewall命令">安装Firewall命令：</h2>
+<pre><code class="language-bash">yum install firewalld firewalld-config
+</code></pre>
+<h2 id="firewall开启常见端口命令">Firewall开启常见端口命令：</h2>
+<pre><code class="language-bash">firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --zone=public --add-port=443/tcp --permanent
+firewall-cmd --zone=public --add-port=22/tcp --permanent
+firewall-cmd --zone=public --add-port=21/tcp --permanent
+firewall-cmd --zone=public --add-port=53/udp --permanent
+</code></pre>
+<h2 id="firewall关闭常见端口命令">Firewall关闭常见端口命令：</h2>
+<pre><code class="language-bash">firewall-cmd --zone=public --remove-port=80/tcp --permanent
+firewall-cmd --zone=public --remove-port=443/tcp --permanent
+firewall-cmd --zone=public --remove-port=22/tcp --permanent
+firewall-cmd --zone=public --remove-port=21/tcp --permanent
+firewall-cmd --zone=public --remove-port=53/udp --permanent
+</code></pre>
+<h2 id="批量添加区间端口">批量添加区间端口</h2>
+<pre><code class="language-bash">firewall-cmd --zone=public --add-port=4400-4600/udp --permanent
+firewall-cmd --zone=public --add-port=4400-4600/tcp --permanent
+</code></pre>
+<h2 id="开启防火墙命令">开启防火墙命令：</h2>
+<pre><code class="language-bash">systemctl start firewalld.service
+</code></pre>
+<h2 id="重启防火墙命令">重启防火墙命令：</h2>
+<pre><code class="language-bash">firewall-cmd --reload  或者   service firewalld restart
+</code></pre>
+<h2 id="查看端口列表">查看端口列表：</h2>
+<pre><code class="language-bash">firewall-cmd --permanent --list-port
+</code></pre>
+<h2 id="禁用防火墙">禁用防火墙</h2>
+<pre><code class="language-bash">systemctl stop firewalld
+</code></pre>
+<h2 id="设置开机启动">设置开机启动</h2>
+<pre><code class="language-bash">systemctl enable firewalld
+</code></pre>
+<h2 id="停止并禁用开机启动">停止并禁用开机启动</h2>
+<pre><code class="language-bash">sytemctl disable firewalld
+</code></pre>
+<h2 id="查看状态">查看状态</h2>
+<pre><code class="language-bash">systemctl status firewalld
+# 或者 
+firewall-cmd --state
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker配置加速pull镜像]]></title>
+        <id>https://note.uhayo.com/post/xIrNCbMk8/</id>
+        <link href="https://note.uhayo.com/post/xIrNCbMk8/">
+        </link>
+        <updated>2020-12-14T10:39:23.000Z</updated>
+        <summary type="html"><![CDATA[<h3 id="加速拉取镜像">加速拉取镜像</h3>
+<p>在国内拉取<a href="http://hub.docker.com" title="Docker注册表">Docker注册表</a>上的镜像时考虑到国内的互联网环境（网络因素，被墙等）会拉取失败或者贼慢的情况我们需要给Docker配置一下pull加速</p>
+]]></summary>
+        <content type="html"><![CDATA[<h3 id="加速拉取镜像">加速拉取镜像</h3>
+<p>在国内拉取<a href="http://hub.docker.com" title="Docker注册表">Docker注册表</a>上的镜像时考虑到国内的互联网环境（网络因素，被墙等）会拉取失败或者贼慢的情况我们需要给Docker配置一下pull加速</p>
+<!-- more -->
+<h3 id="配置加速">配置加速</h3>
+<h5 id="第一种是使用国内阿里云提供的容器服务里的加速">第一种是使用国内阿里云提供的容器服务里的加速</h5>
+<p>针对Docker客户端版本大于 1.10.0 的用户</p>
+<p>您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器</p>
+<pre><code class="language-json">sudo mkdir -p /etc/docker
+
+sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
+{
+  &quot;registry-mirrors&quot;: [&quot;https://aijuoso5.mirror.aliyuncs.com&quot;]
+}
+EOF
+
+sudo systemctl daemon-reload
+
+sudo systemctl restart docker
+</code></pre>
+<p>这里的<code>https://aijuoso5.mirror.aliyuncs.com</code>是我的加速地址你可以登录自己的阿里云容器镜像服务控制台查看自己的地址是：<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/repositories" title="https://cr.console.aliyun.com/cn-hangzhou/instances/repositories">https://cr.console.aliyun.com/cn-hangzhou/instances/repositories</a></p>
+<h5 id="第二种是使用daocloud的加速">第二种是使用DaoCloud的加速</h5>
+<p>同上面阿里云的一样只需要改加速地址即可</p>
+<pre><code class="language-json">sudo mkdir -p /etc/docker
+
+sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
+{
+  &quot;registry-mirrors&quot;: [&quot;http://f1361db2.m.daocloud.io&quot;]
+}
+EOF
+
+sudo systemctl daemon-reload
+
+sudo systemctl restart docker
+</code></pre>
+<p>也可以使用命令直接就可以自动给你配置好</p>
+<pre><code class="language-bash">curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io # 这个命令对Centos8不太友好
+</code></pre>
+<p>至此你pull镜像速度上会快很多</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker Compose安装Gitlab]]></title>
+        <id>https://note.uhayo.com/post/HZ6l2rZVr/</id>
+        <link href="https://note.uhayo.com/post/HZ6l2rZVr/">
+        </link>
+        <updated>2020-12-14T10:37:51.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="docker-compose安装gitlab">Docker Compose安装Gitlab</h3>
+<p>Gitlab总共有两个版本一个是社区版一个是企业版，两个版本功能上基本没区别但企业版要去Gitlab官方买授权证书要花钱所以我们选择社区版已经够用了的基本上满足中小型企业及个人</p>
+<p>我们登录服务器创建Gitlab目录及docker-compose.yml</p>
+<pre><code class="language-bash">mkdir gitlab
+</code></pre>
+<pre><code class="language-bash">cd gitlab
+</code></pre>
+<pre><code class="language-bash">touch docker-compose.yaml
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code class="language-yaml">version: '3.3'
+services:
+    gitlab:
+      image: 'gitlab/gitlab-ce:latest'
+      container_name: 'gitlab'
+      restart: always
+      hostname: 'gitlab' #填写计算机名即可
+      environment:
+        TZ: 'Asia/Shanghai'
+        GITLAB_OMNIBUS_CONFIG: |
+         external_url 'https://mqthub.com'  #访问地址
+         # HTTPS配置
+         nginx['enable'] = true
+         nginx['redirect_http_to_https']= true
+         nginx['ssl_certificate']= &quot;/home/cert/mqthub.com/mqthub.com.pem&quot;
+         nginx['ssl_certificate_key']= &quot;/home/cert/mqthub.com.com/mqthub.com.key&quot;
+         # 端口配置
+         gitlab_rails['gitlab_shell_ssh_port'] = 2222
+         unicorn['port'] = 8880
+         # Email配置
+         gitlab_rails['smtp_enable'] = true
+         gitlab_rails['smtp_address'] = &quot;smtp.exmail.qq.com&quot;
+         gitlab_rails['smtp_port'] = 465
+         gitlab_rails['smtp_user_name'] = &quot;noreply@mqtian.com&quot;
+         gitlab_rails['smtp_password'] = &quot;xxx&quot;
+         gitlab_rails['smtp_authentication'] = &quot;login&quot;
+         gitlab_rails['smtp_enable_starttls_auto'] = true
+         gitlab_rails['smtp_tls'] = true
+         gitlab_rails['gitlab_email_from'] = 'noreply@mqtian.com'
+      ports:
+        - '80:80'        #http端口
+        - '443:443'   #https端口
+        - '222:22'   #配置222端口转发到容器的22端口上
+      volumes:
+        - ./etc:/etc/gitlab             #Gitlab配置文件目录
+        - ./data:/var/opt/gitlab  #Gitlab数据目录
+        - ./logs:/var/log/gitlab   #Gitlab日志目录
+        - ~/cert/:/home/cert/    #域名SSL证书目录
+        - /etc/localtime:/etc/localtime:ro  #同步宿主机日期时间到容器
+</code></pre>
+<h3 id="启动gitlab">启动Gitlab</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="访问gitlab">访问Gitlab</h3>
+<p>我们安装完Gitlab后第一次访问会重定向到root用户重置密码界面重置完密码后使用root+刚刚设置的密码登录即可</p>
+<p>我的Gitlab是配置了Github账号快速登录的如需要配置的话请邮件@我</p>
+<p>我的邮件：mqtian@outlook.com 或者 hi@mqtian.com</p>
+<figure data-type="image" tabindex="1"><img src="https://doc.mqtian.com/uploads/docker/images/m_82ff45621f32d26475807b0ad7a1cd67_r.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Docker Compose安装jenkins]]></title>
         <id>https://note.uhayo.com/post/njgg20QZC/</id>
@@ -503,252 +798,6 @@ services:
 <h3 id="访问刚刚部署的tomcat">访问刚刚部署的Tomcat</h3>
 <p>使用服务器IP+8080端口就可以访问你部署的Tomcat了<br>
 <img src="/uploads/docker/images/m_17719f9026a177b1cb42c7a712635a09_r.png" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Centos7安装Docker]]></title>
-        <id>https://note.uhayo.com/post/B10wKysO4/</id>
-        <link href="https://note.uhayo.com/post/B10wKysO4/">
-        </link>
-        <updated>2020-12-14T10:30:02.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="docker简介">Docker简介</h3>
-<p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。</p>
-<p>Docker 使用客户端-服务器 (C/S) 架构模式 使用远程API来管理和创建Docker容器。Docker 容器（Container）通过 Docker 镜像（Image）来创建，二者之间的关系类似于面向对象编程中的对象与类</p>
-<p>那Docker由什么组成呢， 包括三个基本概念:</p>
-<ul>
-<li>
-<p>仓库（Repository）</p>
-</li>
-<li>
-<p>镜像（Image）</p>
-</li>
-<li>
-<p>容器(Container）</p>
-</li>
-</ul>
-<p>其中Registry是Docker用于存放镜像文件的仓库，Docker 仓库的概念跟Git 类似（就像商店存放所有的英雄，只是更改英雄的权限在某些非程序员手里）。</p>
-<p>所谓镜像就是构建容器的源代码，是一个只读的模板，由一层一层的文件系统组成的，类似于虚拟机的镜像（英雄也是只读的，有自己的技能被动，你也不能进行操作）。</p>
-<p>那么容器就是由Docker镜像创建的运行实例，类似于虚拟机，容器之间是相互隔离的，包含特定的应用及其所需的依赖文件（好比每个英雄都是隔离的，都有自己的皮肤，技能以及走的路线)。</p>
-<p>注：Docker Hub是Docker公司提供的一个注册服务器（Register）来保存多个仓库，每个仓库又可以包含多个具备不同tag的镜像。</p>
-<h3 id="安装docker">安装Docker</h3>
-<p>Centos7，linux 3.10 内核，docker官方说至少3.8以上，建议3.10以上（ubuntu下要linux内核3.8以上， RHEL/Centos 的内核修补过， centos6.5的版本就可以——这个可以试试）</p>
-<h5 id="root账户登录查看内核版本如下">root账户登录，查看内核版本如下</h5>
-<pre><code class="language-bash">uname -a
-</code></pre>
-<h4 id="把yum包更新到最新">把yum包更新到最新</h4>
-<pre><code class="language-bash">yum update  # 期间要选择确认，输入 y 即可
-</code></pre>
-<h4 id="安装需要的软件包-yum-util-提供yum-config-manager功能另外两个是devicemapper驱动依赖的">安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的</h4>
-<pre><code class="language-bash">yum install -y yum-utils device-mapper-persistent-data lvm2
-</code></pre>
-<h4 id="设置yum源选择其中一个">设置yum源（选择其中一个）</h4>
-<pre><code class="language-bash">yum-config-manager --add-repo http://download.docker.com/linux/centos/docker-ce.repo（中央仓库）# Docker官方的
-
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo（阿里仓库）# 阿里云的速度在国内速度快
-
-yum-config-manager --add-repo # 设置完yum源后执行
-</code></pre>
-<h4 id="可以查看所有仓库中所有docker版本并选择特定版本安装">可以查看所有仓库中所有docker版本，并选择特定版本安装</h4>
-<pre><code class="language-bash">yum list docker-ce --showduplicates | sort -r
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="/uploads/linux/images/m_fd10ac180f1164ad66987c5521b63f15_r.png" alt="" loading="lazy"></figure>
-<h4 id="安装docker命令yum-install-docker-ce">安装Docker，命令：yum install docker-ce</h4>
-<pre><code class="language-bash">yum install -y docker-ce   #或者
-
-yum install -y docker-ce-18.03.1.ce   # 安装指定版本
-</code></pre>
-<h4 id="启动docker">启动Docker</h4>
-<pre><code class="language-bash">systemctl start docker # 启动Docker
-systemctl enable  docker # 设置开机启动
-</code></pre>
-<h4 id="查看版本">查看版本</h4>
-<pre><code class="language-bash">docker version # 执行后输出Docker版本信息
-</code></pre>
-<h4 id="docker常用命令">Docker常用命令</h4>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>docker pull nginx:latest</td>
-<td>拉取nginx镜像也可以换成要拉取的其他镜像</td>
-</tr>
-<tr>
-<td>docker images</td>
-<td>查看拉取好的所有镜像</td>
-</tr>
-<tr>
-<td>docker run -d nginx -p 80:80 --name nginx nginx:latest</td>
-<td>运行Nginx <code>-p 80:80</code> 映射容器80端口到宿主机80端口 <code>--name nginx</code> 是给该容器起一个别名，最后是运行的镜像 <code>Nginx</code></td>
-</tr>
-<tr>
-<td>docker run -d nginx -p 80:80 -v /www:/www --name nginx nginx:latest</td>
-<td><code>-v /www:/www</code> 是挂载宿主机 <code>/www</code> 目录到容器里作用是发布web项目</td>
-</tr>
-<tr>
-<td>docker run -d nginx -p 80:80 -v /www:/www -e --name nginx nginx:latest</td>
-<td><code>-e</code> 可以传递你在Dockerfile文件里配置的变量, <code>传递环境变量</code> 适用于自定义的镜像</td>
-</tr>
-<tr>
-<td>docker stop nginx</td>
-<td>停止运行别名为 <code>nginx</code> 的容器</td>
-</tr>
-<tr>
-<td>docker start nginx</td>
-<td>启动别名为 <code>nginx</code> 的容器</td>
-</tr>
-<tr>
-<td>docker restart nginx</td>
-<td>重新启动别名为 <code>nginx</code> 的容器</td>
-</tr>
-<tr>
-<td>docker ps</td>
-<td>查看已停止运行的容器</td>
-</tr>
-<tr>
-<td>docker ps -a</td>
-<td><code>-a</code> 显示所有的容器，包括未运行的</td>
-</tr>
-<tr>
-<td>docker ps -f</td>
-<td><code>-f</code> 根据条件过滤显示的内容</td>
-</tr>
-<tr>
-<td>docker --format</td>
-<td><code>--format</code> 指定返回值的模板文件</td>
-</tr>
-<tr>
-<td>docker ps -l</td>
-<td><code>-l</code> 显示最近创建的容器</td>
-</tr>
-<tr>
-<td>docker ps -1</td>
-<td><code>-q</code> 静默模式，只显示容器编号</td>
-</tr>
-<tr>
-<td>docker ps -s</td>
-<td><code>-s</code> 显示总的文件大小</td>
-</tr>
-<tr>
-<td>docker rm nginx</td>
-<td>删除已停止运行的nginx</td>
-</tr>
-<tr>
-<td>docker rmi nginx</td>
-<td>删除nginx镜像</td>
-</tr>
-<tr>
-<td>docker run -d --name selenium_hub selenium/hub  docker run -d --name node --link selenium_hub:hub selenium/node-chrome-debug</td>
-<td>创建并启动名为node的容器，并把该容器和名为selenium_hub的容器链接起来。</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Docker部署MySQL5.7]]></title>
-        <id>https://note.uhayo.com/post/2-qt8P0g6/</id>
-        <link href="https://note.uhayo.com/post/2-qt8P0g6/">
-        </link>
-        <updated>2020-12-14T10:27:09.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="docker部署mysql57">Docker部署MySQL5.7</h1>
-<p>新建一个目录用于存放docker-compose.yml文件</p>
-<pre><code>mkdir  mysql
-
-cd mysql
-
-touch docker-compose.yml
-</code></pre>
-<h2 id="docker-composeyml文件内容如下">docker-compose.yml文件内容如下：</h2>
-<pre><code class="language-yaml">version: '3.3'
-  
-services:
- mysql:
-  hostname: mysql
-  # 启动容器名称mysql
-  container_name: mysql
-  # 使用mysql 5.7.20的镜像
-  image: mysql:5.7.28
-  # 自启动
-  restart: always
-  command:
-   # mysql默认使用utf8mb4编码
-   - --character-set-server=utf8mb4
-   - --collation-server=utf8mb4_general_ci
-   # mysql时间加8个小时
-   - --default-time_zone=+8:00
-  environment:
-   # 服务器时区使用上海 
-   TZ: Asis/Shanghai
-   # mysql初始化密码
-   MYSQL_ROOT_PASSWORD: 1111
-  ports:
-   # 容器3306端口映射到宿主机3306端口
-   - &quot;1120:3306&quot;
-  volumes:
-   # mysql相关数据存储在宿主机/data/docker/mysql文件夹
-   - &quot;./data/:/var/lib/mysql&quot;
-
-</code></pre>
-<h2 id="拉取mysql5728镜像">拉取MySQL5.7.28镜像</h2>
-<pre><code>docker pull mysql:5.7.28
-</code></pre>
-<p>当然你也可以直接运行<code>docker-compose up -d</code>他会在运行时拉镜像</p>
-<h2 id="运行mysql">运行MySQL</h2>
-<pre><code>docker-compose up -d	# 后台运行
-
-docker-compose down	# 停止运行
-
-docker-compose restart	# 重新启动
-
-docker-compose stop	# 停止运行（不会删除运行记录）
-
-docker-compose start	# 恢复运行
-</code></pre>
-<h2 id="使用mysql客户端连接mysql">使用MySQL客户端连接MySQL</h2>
-<p>这里使用sqlyog连接</p>
-<figure data-type="image" tabindex="1"><img src="https://image.xcodei.com/image/03ec3af4622251b63ae63a265163290e.png" alt="QQ截图20200403011946.png" loading="lazy"></figure>
-<p>至此MySQL已经部署完毕</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello world]]></title>
-        <id>https://note.uhayo.com/post/hello-world/</id>
-        <link href="https://note.uhayo.com/post/hello-world/">
-        </link>
-        <updated>2020-12-14T09:48:46.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>
