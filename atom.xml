@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://note.uhayo.com</id>
+    <id>https://note.iqtian.com</id>
     <title>优哈游笔记</title>
-    <updated>2020-12-14T10:51:04.896Z</updated>
+    <updated>2020-12-17T03:07:18.041Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://note.uhayo.com"/>
-    <link rel="self" href="https://note.uhayo.com/atom.xml"/>
+    <link rel="alternate" href="https://note.iqtian.com"/>
+    <link rel="self" href="https://note.iqtian.com/atom.xml"/>
     <subtitle>晴天</subtitle>
-    <logo>https://note.uhayo.com/images/avatar.png</logo>
-    <icon>https://note.uhayo.com/favicon.ico</icon>
+    <logo>https://note.iqtian.com/images/avatar.png</logo>
+    <icon>https://note.iqtian.com/favicon.ico</icon>
     <rights>All rights reserved 2020, 优哈游笔记</rights>
     <entry>
         <title type="html"><![CDATA[博客嵌入自适应 B 站视频]]></title>
-        <id>https://note.uhayo.com/post/OX3rttR5U/</id>
-        <link href="https://note.uhayo.com/post/OX3rttR5U/">
+        <id>https://note.iqtian.com/post/OX3rttR5U/</id>
+        <link href="https://note.iqtian.com/post/OX3rttR5U/">
         </link>
         <updated>2020-12-14T10:43:06.000Z</updated>
         <summary type="html"><![CDATA[<h1 id="如何嵌入-b-站视频">如何嵌入 B 站视频</h1>
@@ -91,8 +91,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Nginx反向代理后端获取客户端真实IP]]></title>
-        <id>https://note.uhayo.com/post/EqmcpNqS9/</id>
-        <link href="https://note.uhayo.com/post/EqmcpNqS9/">
+        <id>https://note.iqtian.com/post/EqmcpNqS9/</id>
+        <link href="https://note.iqtian.com/post/EqmcpNqS9/">
         </link>
         <updated>2020-12-14T10:42:21.000Z</updated>
         <summary type="html"><![CDATA[<p>Nginx反向代理后，Servlet应用通过request.getRemoteAddr()取到的IP是Nginx的IP地址，并非客户端真实IP，通过request.getRequestURL()获取的域名、协议、端口都是Nginx访问Web应用时的域名、协议、端口，而非客户端浏览器地址栏上的真实域名、协议、端口。</p>
@@ -129,8 +129,8 @@ proxy_set_header X-Forwarded-Proto $scheme;
     </entry>
     <entry>
         <title type="html"><![CDATA[Centos7 firewalld 防火墙配置]]></title>
-        <id>https://note.uhayo.com/post/zZ8m-9eWA/</id>
-        <link href="https://note.uhayo.com/post/zZ8m-9eWA/">
+        <id>https://note.iqtian.com/post/zZ8m-9eWA/</id>
+        <link href="https://note.iqtian.com/post/zZ8m-9eWA/">
         </link>
         <updated>2020-12-14T10:41:34.000Z</updated>
         <summary type="html"><![CDATA[<h1 id="centos7防火墙开放端口-删除端口-查看已开放的端口等">Centos7防火墙开放端口、删除端口、查看已开放的端口等</h1>
@@ -187,8 +187,8 @@ firewall-cmd --state
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker配置加速pull镜像]]></title>
-        <id>https://note.uhayo.com/post/xIrNCbMk8/</id>
-        <link href="https://note.uhayo.com/post/xIrNCbMk8/">
+        <id>https://note.iqtian.com/post/xIrNCbMk8/</id>
+        <link href="https://note.iqtian.com/post/xIrNCbMk8/">
         </link>
         <updated>2020-12-14T10:39:23.000Z</updated>
         <summary type="html"><![CDATA[<h3 id="加速拉取镜像">加速拉取镜像</h3>
@@ -236,8 +236,8 @@ sudo systemctl restart docker
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker Compose安装Gitlab]]></title>
-        <id>https://note.uhayo.com/post/HZ6l2rZVr/</id>
-        <link href="https://note.uhayo.com/post/HZ6l2rZVr/">
+        <id>https://note.iqtian.com/post/HZ6l2rZVr/</id>
+        <link href="https://note.iqtian.com/post/HZ6l2rZVr/">
         </link>
         <updated>2020-12-14T10:37:51.000Z</updated>
         <content type="html"><![CDATA[<h3 id="docker-compose安装gitlab">Docker Compose安装Gitlab</h3>
@@ -307,8 +307,8 @@ docker-compose down # 停止容器并移除
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker Compose安装jenkins]]></title>
-        <id>https://note.uhayo.com/post/njgg20QZC/</id>
-        <link href="https://note.uhayo.com/post/njgg20QZC/">
+        <id>https://note.iqtian.com/post/njgg20QZC/</id>
+        <link href="https://note.iqtian.com/post/njgg20QZC/">
         </link>
         <updated>2020-12-14T10:35:35.000Z</updated>
         <content type="html"><![CDATA[<h3 id="docker-compose安装jenkins">Docker Compose安装jenkins</h3>
@@ -368,8 +368,8 @@ cat /var/jenkins_home/secrets/initialAdminPassword
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker Compose安装Redis]]></title>
-        <id>https://note.uhayo.com/post/4wvNnZBoi/</id>
-        <link href="https://note.uhayo.com/post/4wvNnZBoi/">
+        <id>https://note.iqtian.com/post/4wvNnZBoi/</id>
+        <link href="https://note.iqtian.com/post/4wvNnZBoi/">
         </link>
         <updated>2020-12-14T10:34:13.000Z</updated>
         <content type="html"><![CDATA[<h3 id="docker-compose安装redis">Docker Compose安装Redis</h3>
@@ -419,8 +419,8 @@ https://github.com/qishibo/AnotherRedisDesktopManager/releases</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker Compose安装Tomcat]]></title>
-        <id>https://note.uhayo.com/post/JLSTaagax/</id>
-        <link href="https://note.uhayo.com/post/JLSTaagax/">
+        <id>https://note.iqtian.com/post/JLSTaagax/</id>
+        <link href="https://note.iqtian.com/post/JLSTaagax/">
         </link>
         <updated>2020-12-14T10:33:03.000Z</updated>
         <content type="html"><![CDATA[<h3 id="docker-compose安装tomcat">Docker Compose安装Tomcat</h3>
@@ -476,8 +476,8 @@ docker-compose down # 停止容器并移除
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker Compose安装Nginx]]></title>
-        <id>https://note.uhayo.com/post/x407Ei7Gs/</id>
-        <link href="https://note.uhayo.com/post/x407Ei7Gs/">
+        <id>https://note.iqtian.com/post/x407Ei7Gs/</id>
+        <link href="https://note.iqtian.com/post/x407Ei7Gs/">
         </link>
         <updated>2020-12-14T10:31:44.000Z</updated>
         <content type="html"><![CDATA[<h3 id="docker-compose安装nginx">Docker Compose安装Nginx</h3>
@@ -668,8 +668,8 @@ docker-compose down # 停止容器并移除
     </entry>
     <entry>
         <title type="html"><![CDATA[Linux系统安装Docker Compose及使用]]></title>
-        <id>https://note.uhayo.com/post/kjPm5W4ox/</id>
-        <link href="https://note.uhayo.com/post/kjPm5W4ox/">
+        <id>https://note.iqtian.com/post/kjPm5W4ox/</id>
+        <link href="https://note.iqtian.com/post/kjPm5W4ox/">
         </link>
         <updated>2020-12-14T10:31:07.000Z</updated>
         <content type="html"><![CDATA[<h3 id="docker-compose-简介">Docker Compose 简介</h3>
