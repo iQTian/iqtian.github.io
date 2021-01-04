@@ -1,135 +1,237 @@
 <html>
-  <head>
+<head>
     <meta charset="utf-8" />
+<meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <title>Linux系统安装Docker Compose及使用 | 晴天笔记</title>
-<meta name="description" content="晴天" />
-<link rel="shortcut icon" href="https://note.iqtian.com/favicon.ico">
+
+<link rel="shortcut icon" href="https://note.iqtian.com/favicon.ico?v=1609728196036">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://note.iqtian.com/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
 
-<script src="https://note.iqtian.com/media/js/jquery.min.js"></script>
-<script src="https://note.iqtian.com/media/js/masonry.pkgd.min.js"></script>
-<script src="https://note.iqtian.com/media/js/aos.js"></script>
-<script src="https://note.iqtian.com/media/js/pace.min.js"></script>
-<script src="https://note.iqtian.com/media/js/view-image.min.js"></script>
-<script src="https://note.iqtian.com/media/js/jquery.magnific-popup.min.js"></script>
-<script src="https://note.iqtian.com/media/js/functions.js"></script>
-    <meta name="referrer" content="never">
-    <meta name="description" content="Docker Compose 简介
-Docker Compose 是一种用于通过使用单个命令创建和启动 Docker 应用程序的工具。我们可以使用它来配置应用程序的服务。
-它是开发，测试和升级环境的利器。
-它提供以下命令来管理应用程序的整个..." />
-    <meta name="keywords" content="Centos7,Linux,Docker Compose" />
-    <script src="https://note.iqtian.com/media/js/waterfall.min.js"></script>
-    <script src="https://note.iqtian.com/media/js/prism.min.js"></script>
-  </head>
-  <body>
-            <header id="header" class="grid-container">
-        <!-- start: .menu-wrapper -->
-        <div class="menu-mobile"> 
-          <i class="fa fa-reorder"></i>
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            晴天笔记
         </div>
-        <div class="menu-wrapper">
-          <div class="">
-            <div class="logo">
-              <a href="https://note.iqtian.com"><img src="\media\images\custom-headerLogo.png" alt=""></a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
             </div>
-            <!-- start: .main-nav -->
-
-            <nav class="main-nav grid-container grid-parent">
-              <ul id="menu-header" class="menu gradient-effect">
-                <li class=""><a href="https://note.iqtian.com" class="menu">首页</a></li>
+            
+            <div class="nav-item">
                 
-                  <li class="" >
-                    <a href="/archives" class="menu">
-                      归档
-                    </a>
-                  </li>
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
                 
-                  <li class="" >
-                    <a href="/tags" class="menu">
-                      标签
-                    </a>
-                  </li>
+            </div>
+            
+            <div class="nav-item">
                 
-                  <li class="" >
-                    <a href="/movies" class="menu">
-                      电影
-                    </a>
-                  </li>
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
                 
-                  <li class="" >
-                    <a href="/friends" class="menu">
-                      友链
-                    </a>
-                  </li>
+            </div>
+            
+            <div class="nav-item">
                 
-                  <li class="" >
-                    <a href="/post/about" class="menu">
-                      关于
-                    </a>
-                  </li>
+                <a href="/friends" class="menu gt-a-link">
+                    友链
+                </a>
                 
-                <li class="search-menu-item hide-on-mobile hide-on-tablet"><a href="#search-lightbox" class="lightbox mfp-inline"><i class="fa fa-search-line"></i></a></li>
-              </ul>
-            </nav>
-            <a href="#search-lightbox" class="lightbox epcl-search-button mfp-inline hide-on-tablet hide-on-desktop"><i class="fa fa-search-line"></i></a>
-            <!-- end: .main-nav -->
-            <div class="clear"></div>
-            <div class="border hide-on-tablet hide-on-mobile"></div>
-          </div>    
-          <div class="clear"></div>
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
         </div>
-        <!-- end: .menu-wrapper -->
-        <div class="clear"></div>
-      </header>
-      <div class="hide-on-mobile hide-on-tablet hide-on-desktop">
-        <div id="search-lightbox" class="grid-container grid-small grid-parent mfp-hide">
-          <div class="search-wrapper section">
-            <form id="gridea-search-form" data-update="1608398767063" action="/search/index.html" class="search-form" _lpchecked="1">
-              <input type="text" name="q" id="s" value="" class="search-field" placeholder="搜点啥..." aria-label="搜点啥..." required="">
-              <button type="submit" class="submit" aria-label="Submit">
-                <i class="fa fa-search-line"></i>
-              </button>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1609728196036"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
-          </div>
         </div>
-      </div>
-
-      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
-
-        <div class="center content">
-          <div class="featured-image cover" style="background-image: url('https://note.iqtian.com/post-images/kjPm5W4ox.jpg');">
-            <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-12-14"><i class="fa fa-calendar"></i><span class="lately">5 天前</span></time>
-              
-              <a href="https://note.iqtian.com/post/kjPm5W4ox/#comments" class="comments meta-info" title="">
-                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/kjPm5W4ox/"> </span>
-              </a>
-              <span id="/kjPm5W4ox/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
-              
-            </div>
-            <div class="info">
-              <div class="tags ">
-                
-                      <a href="https://note.iqtian.com/tag/Centos7/" class="ctag ctag-0 ctag-Centos7" aria-label="">Centos7</a>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Linux系统安装Docker Compose及使用
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-12-14 ·
+                    </time>
                     
-                      <a href="https://note.iqtian.com/tag/Linux/" class="ctag ctag-1 ctag-Linux" aria-label="">Linux</a>
+                        <a href="https://note.iqtian.com/tag/Centos7/" class="post-tags">
+                            # Centos7
+                        </a>
                     
-                      <a href="https://note.iqtian.com/tag/Docker-Compose/" class="ctag ctag-2 ctag-Docker-Compose" aria-label="">Docker Compose</a>
+                        <a href="https://note.iqtian.com/tag/Linux/" class="post-tags">
+                            # Linux
+                        </a>
                     
-              </div>
-              <h1 class="title ularge white bold">Linux系统安装Docker Compose及使用</h1>
-            </div>
-          </div>
-        </div>  
-
-        <div class="epcl-page-wrapper">
-          <div class="left-content grid-70 np-mobile">
-            <article class="main-article post">
-              <section class="post-content">
-                <div class="text">
-                  <h3 id="docker-compose-简介">Docker Compose 简介</h3>
+                        <a href="https://note.iqtian.com/tag/Docker-Compose/" class="post-tags">
+                            # Docker Compose
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h3 id="docker-compose-简介">Docker Compose 简介</h3>
 <p>Docker Compose 是一种用于通过使用单个命令创建和启动 Docker 应用程序的工具。我们可以使用它来配置应用程序的服务。</p>
 <p>它是开发，测试和升级环境的利器。</p>
 <p>它提供以下命令来管理应用程序的整个生命周期：</p>
@@ -257,247 +359,103 @@ services:
 <img src="/uploads/docker/images/m_17719f9026a177b1cb42c7a712635a09_r.png" alt="" loading="lazy"></p>
 
                 </div>
-                <div class="clear"></div>
-              </section>
             </article>
-            <div class="clear"></div>
+        </div>
 
-            <section class="related section">
-              
-              <article class="prev grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://note.iqtian.com/post-images/x407Ei7Gs.jpg');"></div>
-                 <a href="https://note.iqtian.com/post/x407Ei7Gs/" class="full-link"></a>
-                 <div class="info">
-                  <time datetime="2020-12-14">2020-12-14</time>
-                  <h4 class="title white no-margin">Docker Compose安装Nginx</h4>
-                </div>
-                 <span class="epcl-button red">
-                  <img src="https://note.iqtian.com/media/images/left-arrow.svg" width="15" alt="Left Arrow">
-                </span>
-                <div class="overlay"></div>
-              </article>
-              
-              
-              <article class="next grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://note.iqtian.com/post-images/B10wKysO4.jpg');"></div>
-                 <a href="https://note.iqtian.com/post/B10wKysO4/" class="full-link"></a>
-                 <div class="info">
-                  <time datetime="2020-12-14">2020-12-14</time>
-                  <h4 class="title white no-margin">Centos7安装Docker</h4>
-                </div>
-                 <span class="epcl-button red">
-                  <img src="https://note.iqtian.com/media/images/right-arrow.svg" width="15" alt="Left Arrow">
-                </span>
-                <div class="overlay"></div>
-              </article>
-              
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://note.iqtian.com/post/B10wKysO4/" class="post-title gt-a-link">
+                    Centos7安装Docker
+                </a>
+            </div>
+        
 
-                <div class="clear"></div>
-            </section>
+        
 
-              <div class="clear"></div>
-              
+        
             
-              <div id="comments" class="bg-white hosted ">
-                
-                  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+<script>
+    // md5.min.js
+    !function(n){
+        "use strict";
+        function d(n,t){var r=(65535&n)+(65535&t);return(n>>16)+(t>>16)+(r>>16)<<16|65535&r}
+        function f(n,t,r,e,o,u){return d((c=d(d(t,n),d(e,u)))<<(f=o)|c>>>32-f,r);var c,f}
+        function l(n,t,r,e,o,u,c){return f(t&r|~t&e,n,t,o,u,c)}
+        function v(n,t,r,e,o,u,c){return f(t&e|r&~e,n,t,o,u,c)}
+        function g(n,t,r,e,o,u,c){return f(t^r^e,n,t,o,u,c)}
+        function m(n,t,r,e,o,u,c){return f(r^(t|~e),n,t,o,u,c)}
+        function i(n,t){var r,e,o,u,c;n[t>>5]|=128<<t%32,n[14+(t+64>>>9<<4)]=t;var f=1732584193,i=-271733879,a=-1732584194,h=271733878;for(r=0;r<n.length;r+=16)f=l(e=f,o=i,u=a,c=h,n[r],7,-680876936),h=l(h,f,i,a,n[r+1],12,-389564586),a=l(a,h,f,i,n[r+2],17,606105819),i=l(i,a,h,f,n[r+3],22,-1044525330),f=l(f,i,a,h,n[r+4],7,-176418897),h=l(h,f,i,a,n[r+5],12,1200080426),a=l(a,h,f,i,n[r+6],17,-1473231341),i=l(i,a,h,f,n[r+7],22,-45705983),f=l(f,i,a,h,n[r+8],7,1770035416),h=l(h,f,i,a,n[r+9],12,-1958414417),a=l(a,h,f,i,n[r+10],17,-42063),i=l(i,a,h,f,n[r+11],22,-1990404162),f=l(f,i,a,h,n[r+12],7,1804603682),h=l(h,f,i,a,n[r+13],12,-40341101),a=l(a,h,f,i,n[r+14],17,-1502002290),f=v(f,i=l(i,a,h,f,n[r+15],22,1236535329),a,h,n[r+1],5,-165796510),h=v(h,f,i,a,n[r+6],9,-1069501632),a=v(a,h,f,i,n[r+11],14,643717713),i=v(i,a,h,f,n[r],20,-373897302),f=v(f,i,a,h,n[r+5],5,-701558691),h=v(h,f,i,a,n[r+10],9,38016083),a=v(a,h,f,i,n[r+15],14,-660478335),i=v(i,a,h,f,n[r+4],20,-405537848),f=v(f,i,a,h,n[r+9],5,568446438),h=v(h,f,i,a,n[r+14],9,-1019803690),a=v(a,h,f,i,n[r+3],14,-187363961),i=v(i,a,h,f,n[r+8],20,1163531501),f=v(f,i,a,h,n[r+13],5,-1444681467),h=v(h,f,i,a,n[r+2],9,-51403784),a=v(a,h,f,i,n[r+7],14,1735328473),f=g(f,i=v(i,a,h,f,n[r+12],20,-1926607734),a,h,n[r+5],4,-378558),h=g(h,f,i,a,n[r+8],11,-2022574463),a=g(a,h,f,i,n[r+11],16,1839030562),i=g(i,a,h,f,n[r+14],23,-35309556),f=g(f,i,a,h,n[r+1],4,-1530992060),h=g(h,f,i,a,n[r+4],11,1272893353),a=g(a,h,f,i,n[r+7],16,-155497632),i=g(i,a,h,f,n[r+10],23,-1094730640),f=g(f,i,a,h,n[r+13],4,681279174),h=g(h,f,i,a,n[r],11,-358537222),a=g(a,h,f,i,n[r+3],16,-722521979),i=g(i,a,h,f,n[r+6],23,76029189),f=g(f,i,a,h,n[r+9],4,-640364487),h=g(h,f,i,a,n[r+12],11,-421815835),a=g(a,h,f,i,n[r+15],16,530742520),f=m(f,i=g(i,a,h,f,n[r+2],23,-995338651),a,h,n[r],6,-198630844),h=m(h,f,i,a,n[r+7],10,1126891415),a=m(a,h,f,i,n[r+14],15,-1416354905),i=m(i,a,h,f,n[r+5],21,-57434055),f=m(f,i,a,h,n[r+12],6,1700485571),h=m(h,f,i,a,n[r+3],10,-1894986606),a=m(a,h,f,i,n[r+10],15,-1051523),i=m(i,a,h,f,n[r+1],21,-2054922799),f=m(f,i,a,h,n[r+8],6,1873313359),h=m(h,f,i,a,n[r+15],10,-30611744),a=m(a,h,f,i,n[r+6],15,-1560198380),i=m(i,a,h,f,n[r+13],21,1309151649),f=m(f,i,a,h,n[r+4],6,-145523070),h=m(h,f,i,a,n[r+11],10,-1120210379),a=m(a,h,f,i,n[r+2],15,718787259),i=m(i,a,h,f,n[r+9],21,-343485551),f=d(f,e),i=d(i,o),a=d(a,u),h=d(h,c);return[f,i,a,h]}
+        function a(n){var t,r="",e=32*n.length;for(t=0;t<e;t+=8)r+=String.fromCharCode(n[t>>5]>>>t%32&255);return r}
+        function h(n){var t,r=[];for(r[(n.length>>2)-1]=void 0,t=0;t<r.length;t+=1)r[t]=0;var e=8*n.length;for(t=0;t<e;t+=8)r[t>>5]|=(255&n.charCodeAt(t/8))<<t%32;return r}
+        function e(n){var t,r,e="0123456789abcdef",o="";for(r=0;r<n.length;r+=1)t=n.charCodeAt(r),o+=e.charAt(t>>>4&15)+e.charAt(15&t);return o}
+        function r(n){return unescape(encodeURIComponent(n))}
+        function o(n){return a(i(h(t=r(n)),8*t.length));var t}
+        function u(n,t){return function(n,t){var r,e,o=h(n),u=[],c=[];for(u[15]=c[15]=void 0,16<o.length&&(o=i(o,8*n.length)),r=0;r<16;r+=1)u[r]=909522486^o[r],c[r]=1549556828^o[r];return e=i(u.concat(h(t)),512+8*t.length),a(i(c.concat(e),640))}(r(n),r(t))}
+        function t(n,t,r){return t?r?u(t,n):e(u(t,n)):r?o(n):e(o(n))}
+        "function"==typeof define&&define.amd?define(function(){return t}):"object"==typeof module&&module.exports?module.exports=t:n.md5=t;
+    }(this);
+</script>
+
 
 <div id="gitalk-container"></div>
-<div class="clear"></div>
 
 <script>
+
   var gitalk = new Gitalk({
     clientID: '9b4b268eb91a75aec0ed',
     clientSecret: '4407b189ed051c9753b33965e3fa8699fddc76c7',
     repo: 'talk',
     owner: 'iQTian',
     admin: ['iQTian'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
+    id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false       // Facebook-like distraction free mode
   })
 
   gitalk.render('gitalk-container')
+
 </script>
 
-                
-                
-              </div>
             
 
-            </div>
-          </div>
-      </main>
-
-          <footer id="footer" class="grid-container">
-        <div class="widgets row gradient-effect">
-            <div class="default-sidebar border-effect">
-              <div class="grid-33 tablet-grid-50 mobile-grid-100">
-                <section id="tag_cloud-2" class="widget widget_epcl_posts_thumbs underline-effect">
-                  <h4 class="widget-title title white bordered">最新文章</h4>
-                  
-                  
-                  <article class="item post-0 post type-post status-publish format-standard has-post-thumbnail hentry">
-                    <a href="https://note.iqtian.com/post/OX3rttR5U/" class="thumb hover-effect">
-                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://note.iqtian.com/post-images/OX3rttR5U.jpg');"></span>
-                    </a>
-                    <div class="info gradient-effect">
-                      <time datetime="2020-12-14">2020-12-14</time>
-                      <h4 class="title usmall">
-                        <a href="https://note.iqtian.com/post/OX3rttR5U/">博客嵌入自适应 B 站视频</a>
-                      </h4>
-                    </div>
-                    <div class="clear"></div>
-                  </article>
-                  
-                  
-                  
-                  <article class="item post-1 post type-post status-publish format-standard has-post-thumbnail hentry">
-                    <a href="https://note.iqtian.com/post/EqmcpNqS9/" class="thumb hover-effect">
-                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://note.iqtian.com/post-images/EqmcpNqS9.jpg');"></span>
-                    </a>
-                    <div class="info gradient-effect">
-                      <time datetime="2020-12-14">2020-12-14</time>
-                      <h4 class="title usmall">
-                        <a href="https://note.iqtian.com/post/EqmcpNqS9/">Nginx反向代理后端获取客户端真实IP</a>
-                      </h4>
-                    </div>
-                    <div class="clear"></div>
-                  </article>
-                  
-                  
-                  
-                  <article class="item post-2 post type-post status-publish format-standard has-post-thumbnail hentry">
-                    <a href="https://note.iqtian.com/post/zZ8m-9eWA/" class="thumb hover-effect">
-                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://note.iqtian.com/post-images/zZ8m-9eWA.jpg');"></span>
-                    </a>
-                    <div class="info gradient-effect">
-                      <time datetime="2020-12-14">2020-12-14</time>
-                      <h4 class="title usmall">
-                        <a href="https://note.iqtian.com/post/zZ8m-9eWA/">Centos7 firewalld 防火墙配置</a>
-                      </h4>
-                    </div>
-                    <div class="clear"></div>
-                  </article>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  <div class="clear"></div>
-                </section>
-              </div>
-
-              <div class="grid-33 tablet-grid-50 mobile-grid-100">
-                <section id="tag_cloud-2" class="widget widget_tag_cloud underline-effect">
-                  <h4 class="widget-title title white bordered">标签云</h4>
-                  <div class="tagcloud">
-                    
-                      <a href="https://note.iqtian.com/tag/WQVhzL7me/" class="ctag ctag-0 ctag-WQVhzL7me" aria-label="">分享</a>
-                    
-                      <a href="https://note.iqtian.com/tag/Nginx/" class="ctag ctag-1 ctag-Nginx" aria-label="">Nginx</a>
-                    
-                      <a href="https://note.iqtian.com/tag/Centos7/" class="ctag ctag-2 ctag-Centos7" aria-label="">Centos7</a>
-                    
-                      <a href="https://note.iqtian.com/tag/Linux/" class="ctag ctag-3 ctag-Linux" aria-label="">Linux</a>
-                    
-                      <a href="https://note.iqtian.com/tag/Docker/" class="ctag ctag-4 ctag-Docker" aria-label="">Docker</a>
-                    
-                      <a href="https://note.iqtian.com/tag/Git/" class="ctag ctag-5 ctag-Git" aria-label="">Git</a>
-                    
-                      <a href="https://note.iqtian.com/tag/Docker-Compose/" class="ctag ctag-6 ctag-Docker-Compose" aria-label="">Docker Compose</a>
-                    
-                      <a href="https://note.iqtian.com/tag/jenkins/" class="ctag ctag-7 ctag-jenkins" aria-label="">jenkins</a>
-                    
-                      <a href="https://note.iqtian.com/tag/V_b8I7vZ6/" class="ctag ctag-8 ctag-V_b8I7vZ6" aria-label="">Redis</a>
-                    
-                      <a href="https://note.iqtian.com/tag/Tomcat/" class="ctag ctag-9 ctag-Tomcat" aria-label="">Tomcat</a>
-                    
-                      <a href="https://note.iqtian.com/tag/MySQL/" class="ctag ctag-10 ctag-MySQL" aria-label="">MySQL</a>
-                    
-                      <a href="https://note.iqtian.com/tag/4yk4nfNyp/" class="ctag ctag-11 ctag-4yk4nfNyp" aria-label="">Gridea</a>
-                    
-                  </div>
-                  <div class="clear"></div>
-                </section>
-              </div>
-
-              <div class="grid-33 tablet-grid-50 mobile-grid-100">
-                <section id="epcl_about-2" class="widget widget_epcl_about underline-effect">
-                  <h4 class="widget-title title white bordered">关于我</h4>
-                  <div class="avatar">
-                    <a href="" class="translate-effect thumb"><span class="fullimage cover" style="background-image: url(https://note.iqtian.com/images/avatar.png);"></span></a>
-                  </div>
-                  <div class="info">
-                    <h4 class="title small author-name gradient-effect no-margin"><a href="">晴天笔记</a></h4>
-                    <p class="founder">晴天</p>
-                    <div class="social">
-                      
-                          
-                            <a href="https://github.com/Uhayo" class="translate-effect" target="_blank"><i class="fa fa-github"></i></a>
-                        
-                      
-                          
-                            <a href="https://twitter.com/WeQTian" class="translate-effect" target="_blank"><i class="fa fa-twitter"></i></a>
-                        
-                      
-                          
-                            <a href="https://www.instagram.com/weqtian/" class="translate-effect" target="_blank"><i class="fa fa-instagram"></i></a>
-                        
-                      
-                        
-                      
-                        
-                      
-                    </div> 
-                  </div>
-                  <div class="clear"></div>
-                  </section>
-              </div>
-
-            </div>
-            <div class="clear"></div>
-        </div>
-
-        <div class="logo">
-          <a href="https://note.iqtian.com"><img src="\media\images\custom-footerLogo.png" alt=""></a>
-        </div>
-        <p class="published border-effect">
-          © 2020&nbsp;<a href="/">晴天</a>&nbsp;<a href="https://beian.miit.gov.cn/ " target="_blank">湘ICP备19026302号</a>
-        </p>
+            
         
-        <a href="javascript:void(0)" id="back-to-top" class="epcl-button dark" style="display:none">
-          <i class="fa fa-arrow"></i>
-        </a>
-    </footer>
-    
-    <div class="clear"></div>
 
         
 
-      
-    <script src="https://note.iqtian.com/media/js/functions-post.js"></script>
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">晴天</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        © 2020&nbsp;<a href="/">晴天</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://note.iqtian.com/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
 
     </div>
-    <!-- end: #wrapper -->
-  </body>
+</div>
+</body>
 </html>
